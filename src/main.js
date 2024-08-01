@@ -10,4 +10,7 @@ library.add(fas);
 import '@/assets/scss/main.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).mount('#app');
+createApp(App)
+    .component('font-awesome-icon', FontAwesomeIcon)
+    .use(router)
+    .mount('#app');

@@ -25,8 +25,8 @@
               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
             >
               <font-awesome-icon icon="download" />
-              Generate Report</a
-            >
+              Baixar Relatório
+            </a>
           </div>
 
           <!-- Content Row -->
@@ -40,10 +40,10 @@
                       <div
                         class="text-xs font-weight-bold text-primary text-uppercase mb-1"
                       >
-                        Earnings (Monthly)
+                        Qtd. Músicas
                       </div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        $40,000
+                        1.582
                       </div>
                     </div>
                     <div class="col-auto">
@@ -63,10 +63,10 @@
                       <div
                         class="text-xs font-weight-bold text-success text-uppercase mb-1"
                       >
-                        Earnings (Annual)
+                        Qtd. Álbuns
                       </div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        $215,000
+                        254
                       </div>
                     </div>
                     <div class="col-auto">
@@ -86,7 +86,7 @@
                       <div
                         class="text-xs font-weight-bold text-info text-uppercase mb-1"
                       >
-                        Tasks
+                        Pendências
                       </div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
@@ -127,7 +127,7 @@
                       <div
                         class="text-xs font-weight-bold text-warning text-uppercase mb-1"
                       >
-                        Pending Requests
+                        Revisões Pendentes
                       </div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">
                         18
@@ -152,9 +152,7 @@
                 <div
                   class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                 >
-                  <h6 class="m-0 font-weight-bold text-primary">
-                    Earnings Overview
-                  </h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Resumo</h6>
                   <div class="dropdown no-arrow">
                     <a
                       class="dropdown-toggle"
@@ -195,9 +193,7 @@
                 <div
                   class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                 >
-                  <h6 class="m-0 font-weight-bold text-primary">
-                    Revenue Sources
-                  </h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Tarefas</h6>
                   <div class="dropdown no-arrow">
                     <a
                       class="dropdown-toggle"
@@ -399,25 +395,17 @@
                   </h6>
                 </div>
                 <div class="card-body">
-                  <div class="text-center">
-                    <img
-                      class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-                      style="width: 25rem"
-                      src="img/undraw_posting_photo.svg"
-                      alt="..."
-                    />
-                  </div>
                   <p>
                     Add some quality, svg illustrations to your project courtesy
                     of
                     <a target="_blank" rel="nofollow" href="https://undraw.co/"
-                      >unDraw</a
+                      >unDraw </a
                     >, a constantly updated collection of beautiful svg images
                     that you can use completely free and without attribution!
                   </p>
-                  <a target="_blank" rel="nofollow" href="https://undraw.co/"
-                    >Browse Illustrations on unDraw &rarr;</a
-                  >
+                  <a target="_blank" rel="nofollow" href="https://undraw.co/">
+                    Browse Illustrations on unDraw &rarr;
+                  </a>
                 </div>
               </div>
 

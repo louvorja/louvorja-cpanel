@@ -1,5 +1,7 @@
 <template>
-  <div class="avatar">AL</div>
+  <div class="avatar">
+    <slot />
+  </div>
 </template>
 
 <script>
@@ -19,13 +21,13 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: 2.3rem;
+  height: 2.3rem;
   border-radius: 50%;
   background-color: #007bff;
   color: white;
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   text-align: center;
 }
 </style>

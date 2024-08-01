@@ -1,16 +1,12 @@
 <template>
   <li :class="['nav-item', { active }]">
-    <a
-      v-if="!hasSlot"
-      :class="['nav-link', { collapsed: !active }]"
-      :href="href"
-    >
+    <a v-if="!hasSlot" class="nav-link" :href="href">
       <font-awesome-icon :icon="icon" class="icon" />
       <span>{{ label }}</span>
     </a>
     <a
       v-else
-      :class="['nav-link', { collapsed: !active }]"
+      :class="['nav-link', { collapsed: !show }]"
       data-bs-toggle="collapse"
       :href="'#' + id"
       role="button"
@@ -22,7 +18,7 @@
       <font-awesome-icon icon="angle-right" class="arrow" />
     </a>
 
-    <div v-if="hasSlot" :class="['collapse', { show: active }]" :id="id">
+    <div v-if="hasSlot" :class="['collapse', { show }]" :id="id">
       <div class="bg-white py-2 collapse-inner rounded">
         <slot />
       </div>
@@ -42,11 +38,28 @@ export default {
   data() {
     return {
       id: `menu-${Math.random().toString(36).substr(2, 9)}`,
+      width: 0,
     };
   },
   computed: {
     hasSlot() {
       return !!this.$slots.default;
+    },
+    show() {
+      return this.active && this.width >= 768;
+    },
+  },
+  mounted() {
+    window.addEventListener("resize", this.resize);
+    this.resize();
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.resize);
+  },
+  methods: {
+    resize() {
+      this.width = window.innerWidth;
+      this.$forceUpdate();
     },
   },
 };
@@ -64,5 +77,10 @@ export default {
 }
 .nav-link:not(.collapsed) .arrow {
   transform: rotate(90deg);
+}
+@media (max-width: 767px) {
+  .nav-link .arrow {
+    display: none;
+  }
 }
 </style>

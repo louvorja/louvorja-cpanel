@@ -91,7 +91,6 @@
           <a class="dropdown-item d-flex align-items-center" href="#">
             <div class="dropdown-list-image me-3">
               <avatar>AA</avatar>
-              <div class="status-indicator bg-success"></div>
             </div>
             <div class="font-weight-bold">
               <div class="text-truncate">
@@ -103,12 +102,7 @@
           </a>
           <a class="dropdown-item d-flex align-items-center" href="#">
             <div class="dropdown-list-image me-3">
-              <img
-                class="rounded-circle"
-                src="img/undraw_profile_2.svg"
-                alt="..."
-              />
-              <div class="status-indicator"></div>
+              <avatar>JC</avatar>
             </div>
             <div>
               <div class="text-truncate">
@@ -120,12 +114,7 @@
           </a>
           <a class="dropdown-item d-flex align-items-center" href="#">
             <div class="dropdown-list-image me-3">
-              <img
-                class="rounded-circle"
-                src="img/undraw_profile_3.svg"
-                alt="..."
-              />
-              <div class="status-indicator bg-warning"></div>
+              <avatar>XX</avatar>
             </div>
             <div>
               <div class="text-truncate">
@@ -137,12 +126,7 @@
           </a>
           <a class="dropdown-item d-flex align-items-center" href="#">
             <div class="dropdown-list-image me-3">
-              <img
-                class="rounded-circle"
-                src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                alt="..."
-              />
-              <div class="status-indicator bg-success"></div>
+              <avatar>DS</avatar>
             </div>
             <div>
               <div class="text-truncate">
@@ -167,17 +151,14 @@
           href="#"
           id="userDropdown"
           role="button"
-          data-toggle="dropdown"
+          data-bs-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
         >
-          <span class="me-2 d-none d-lg-inline text-gray-600 small"
-            >Douglas McGee</span
-          >
-          <img
-            class="img-profile rounded-circle"
-            src="img/undraw_profile.svg"
-          />
+          <span class="me-2 d-none d-lg-inline text-gray-600 small">
+            Mayco Rolbuche
+          </span>
+          <avatar>MR</avatar>
         </a>
         <!-- Dropdown - User Information -->
         <div
@@ -189,7 +170,7 @@
             Profile
           </a>
           <a class="dropdown-item" href="#">
-            <font-awesome-icon icon="exclamation-cogs" />
+            <font-awesome-icon icon="exclamation" />
             Settings
           </a>
           <a class="dropdown-item" href="#">
@@ -219,13 +200,15 @@ export default {
   components: {
     Avatar,
   },
-  data() {},
 };
 </script>
 
 <style scoped>
-.dropdown-menu-right {
-  right: 0;
-  left: auto;
+.dropdown-menu {
+  right: 0 !important;
+  left: auto !important;
+}
+.badge-counter {
+  padding: 3px 5px;
 }
 </style>

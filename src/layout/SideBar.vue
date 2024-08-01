@@ -28,15 +28,15 @@
 
     <hr class="sidebar-divider" />
 
-    <div class="sidebar-heading">Interface</div>
+    <div class="sidebar-heading">APLICAÇÃO</div>
 
-    <item-menu label="Componentes" icon="cog" active>
+    <item-menu label="Músicas" icon="cog" active>
       <h6 class="collapse-header">Custom Components:</h6>
       <a class="collapse-item" href="buttons.html">Buttons</a>
       <a class="collapse-item" href="cards.html">Cards</a>
     </item-menu>
 
-    <item-menu label="Utilities" icon="wrench">
+    <item-menu label="Utilitários" icon="wrench">
       <h6 class="collapse-header">Custom Utilities:</h6>
       <a class="collapse-item" href="utilities-color.html">Colors</a>
       <a class="collapse-item" href="utilities-border.html">Borders</a>
@@ -56,6 +56,5 @@ export default {
   components: {
     ItemMenu,
   },
-  data() {},
 };
 </script>
