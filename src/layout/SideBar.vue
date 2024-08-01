@@ -6,7 +6,7 @@
     <!-- Sidebar - Brand -->
     <a
       class="sidebar-brand d-flex align-items-center justify-content-center"
-      href="index.html"
+      href="/"
     >
       <div class="sidebar-brand-icon">
         <img src="@/assets/img/logo.svg" style="height: 60px" />
@@ -19,12 +19,7 @@
 
     <hr class="sidebar-divider my-0" />
 
-    <item-menu
-      label="Dashboard"
-      icon="tachometer-alt"
-      href="index.html"
-      active
-    />
+    <item-menu label="Dashboard" icon="tachometer-alt" href="/" active />
 
     <hr class="sidebar-divider" />
 
@@ -32,8 +27,8 @@
 
     <item-menu label="Músicas" icon="cog" active>
       <h6 class="collapse-header">Custom Components:</h6>
-      <a class="collapse-item" href="buttons.html">Buttons</a>
-      <a class="collapse-item" href="cards.html">Cards</a>
+      <router-link class="collapse-item" to="/">Buttons</router-link>
+      <router-link class="collapse-item" to="/about">Sobre</router-link>
     </item-menu>
 
     <item-menu label="Utilitários" icon="wrench">
@@ -53,6 +48,7 @@
 import ItemMenu from "@/components/ItemMenu.vue";
 
 export default {
+  name: "SideBarLayout",
   components: {
     ItemMenu,
   },

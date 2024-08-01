@@ -1,9 +1,9 @@
 <template>
   <li :class="['nav-item', { active }]">
-    <a v-if="!hasSlot" class="nav-link" :href="href">
+    <router-link v-if="!hasSlot" class="nav-link" :to="href">
       <font-awesome-icon :icon="icon" class="icon" />
       <span>{{ label }}</span>
-    </a>
+    </router-link>
     <a
       v-else
       :class="['nav-link', { collapsed: !show }]"
