@@ -178,12 +178,7 @@
             Activity Log
           </a>
           <div class="dropdown-divider"></div>
-          <a
-            class="dropdown-item"
-            href="#"
-            data-toggle="modal"
-            data-target="#logoutModal"
-          >
+          <a class="dropdown-item" @click="logout()" href="#">
             <font-awesome-icon icon="sign-out-alt" />
             Logout
           </a>
@@ -194,12 +189,23 @@
 </template>
 
 <script>
+const Auth = require("@/controllers/Auth");
+
 import Avatar from "@/components/Avatar.vue";
 
 export default {
   name: "TopBarLayout",
   components: {
     Avatar,
+  },
+  methods: {
+    logout: async function () {
+      let self = this;
+
+      self.error = "";
+      self.messages = null;
+      Auth.logout();
+    },
   },
 };
 </script>

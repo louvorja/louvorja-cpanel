@@ -25,7 +25,7 @@ import FooterPage from "./layout/Footer.vue";
 
 import Login from "./views/Login.vue";
 
-const Auth = require("@/controllers/Auth.js");
+//const Auth = require("@/controllers/Auth.js");
 
 export default {
   name: "App",
@@ -40,7 +40,7 @@ export default {
     ...mapGetters(["start", "loading", "auth"]),
   },
   mounted() {
-    Auth.refresh();
+    //Auth.refresh();
   },
 };
 </script>

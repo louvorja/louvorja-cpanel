@@ -27,26 +27,61 @@
                         Forneça suas credenciais!
                       </h1>
                     </div>
-                    <form class="user">
+
+                    <alert danger v-if="error">{{ error }}</alert>
+
+                    <form
+                      @submit.prevent="handleSubmit"
+                      @keydown.enter="handleSubmit"
+                      class="user"
+                    >
                       <div class="form-group mb-2">
                         <input
-                          type="email"
+                          type="text"
                           class="form-control form-control-user"
-                          id="exampleInputEmail"
-                          aria-describedby="emailHelp"
-                          placeholder="Enter Email Address..."
+                          :class="{
+                            'is-invalid': messages && messages.username,
+                          }"
+                          placeholder="Nome de Usuário"
+                          v-model="user.username"
                         />
+                        <div
+                          v-if="messages && messages.username"
+                          class="invalid-feedback"
+                        >
+                          <div
+                            v-for="(message, index) in messages.username"
+                            :key="index"
+                          >
+                            {{ message }}
+                          </div>
+                        </div>
                       </div>
                       <div class="form-group mb-3">
                         <input
                           type="password"
                           class="form-control form-control-user"
-                          id="exampleInputPassword"
-                          placeholder="Password"
+                          :class="{
+                            'is-invalid': messages && messages.password,
+                          }"
+                          placeholder="Senha"
+                          v-model="user.password"
                         />
+                        <div
+                          v-if="messages && messages.password"
+                          class="invalid-feedback"
+                        >
+                          <div
+                            v-for="(message, index) in messages.password"
+                            :key="index"
+                          >
+                            {{ message }}
+                          </div>
+                        </div>
                       </div>
+
                       <a
-                        href="index.html"
+                        @click="login()"
                         class="btn btn-primary btn-user btn-block w-100"
                       >
                         Conectar
@@ -75,8 +110,45 @@
 </template>
 
 <script>
+const Auth = require("@/controllers/Auth");
+
+import Alert from "@/components/Alert.vue";
+
 export default {
   name: "LoginPage",
+  components: {
+    Alert,
+  },
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+      error: "",
+      messages: {
+        username: null,
+        password: null,
+      },
+    };
+  },
+  methods: {
+    login: async function () {
+      let self = this;
+
+      self.error = "";
+      self.messages = null;
+      Auth.login(this.user, function (resp, data) {
+        if (!resp) {
+          self.error = !data.messages ? data.error : "";
+          self.messages = data.messages;
+        }
+      });
+    },
+    handleSubmit() {
+      this.login();
+    },
+  },
 };
 </script>
 
