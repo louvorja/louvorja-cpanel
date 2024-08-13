@@ -29,6 +29,7 @@
 <script>
 export default {
   name: "ItemMenu",
+  inheritAttrs: false,
   props: {
     label: String,
     icon: String,

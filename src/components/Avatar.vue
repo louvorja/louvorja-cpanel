@@ -7,6 +7,7 @@
 <script>
 export default {
   name: "AvatarComponent",
+  inheritAttrs: false,
   props: {
     label: String,
     icon: String,

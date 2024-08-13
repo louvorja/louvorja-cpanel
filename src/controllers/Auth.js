@@ -8,6 +8,7 @@ export function login(params, callback = function () { }) {
     Api.post('auth/login', params, function (resp, data) {
         store.commit('setLoading', false);
         store.commit('setAuth', resp);
+        store.commit('setUser', data.user);
         if (resp) {
             Api.set_token(data.token);
         }
@@ -21,6 +22,7 @@ export function logout(callback = function () { }) {
         //console.log('auth/logout', resp, data)
         store.commit('setLoading', false);
         store.commit('setAuth', false);
+        store.commit('setUser', data.user);
         Api.remove_token();
         router.push('/');
         callback(resp, data);
@@ -36,6 +38,7 @@ export function refresh(callback = function () { }) {
             store.commit('setStart', true);
             store.commit('setLoading', false);
             store.commit('setAuth', resp);
+            store.commit('setUser', data.user);
             if (resp) {
                 Api.set_token(data.token);
             } else {

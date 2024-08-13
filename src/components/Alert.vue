@@ -20,6 +20,7 @@
 <script>
 export default {
   name: "AlertComponent",
+  inheritAttrs: false,
   props: {
     primary: Boolean,
     secondary: Boolean,

@@ -148,7 +148,7 @@
       <li class="nav-item dropdown no-arrow">
         <a
           class="nav-link dropdown-toggle"
-          href="#"
+          href="javascript:"
           id="userDropdown"
           role="button"
           data-bs-toggle="dropdown"
@@ -156,19 +156,19 @@
           aria-expanded="false"
         >
           <span class="me-2 d-none d-lg-inline text-gray-600 small">
-            Mayco Rolbuche
+            {{ user.short_name ?? "" }}
           </span>
-          <avatar>MR</avatar>
+          <avatar>{{ user.initials ?? "" }}</avatar>
         </a>
         <!-- Dropdown - User Information -->
         <div
           class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
           aria-labelledby="userDropdown"
         >
-          <a class="dropdown-item" href="#">
+          <router-link class="dropdown-item" to="/profile">
             <font-awesome-icon icon="user" />
-            Profile
-          </a>
+            Dados Pessoais
+          </router-link>
           <a class="dropdown-item" href="#">
             <font-awesome-icon icon="exclamation" />
             Settings
@@ -191,12 +191,16 @@
 <script>
 const Auth = require("@/controllers/Auth");
 
+import { mapGetters } from "vuex";
 import Avatar from "@/components/Avatar.vue";
 
 export default {
   name: "TopBarLayout",
   components: {
     Avatar,
+  },
+  computed: {
+    ...mapGetters(["user"]),
   },
   methods: {
     logout: async function () {

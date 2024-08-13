@@ -80,12 +80,12 @@
                         </div>
                       </div>
 
-                      <a
+                      <button
                         @click="login()"
                         class="btn btn-primary btn-user btn-block w-100"
                       >
                         Conectar
-                      </a>
+                      </button>
                     </form>
                     <hr />
                     <div class="text-center">
