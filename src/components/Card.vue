@@ -15,7 +15,7 @@
             >
               {{ label }}
             </div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">
+            <div class="h5 mb-0 text-gray-800">
               <slot />
             </div>
             <div class="text-end" v-if="linkLabel">
