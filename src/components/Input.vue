@@ -25,7 +25,7 @@
     <div v-if="help" :id="id + 'Help'" class="form-text">
       {{ help }}
     </div>
-    <div v-if="error" class="invalid-feedback">
+    <div v-if="error && error_list" class="invalid-feedback">
       <div v-for="(message, index) in error_list" :key="index">
         {{ message }}
       </div>
@@ -44,7 +44,7 @@ export default {
     label: String,
     type: String,
     help: String,
-    error: String,
+    error: [String, Array],
     col: Number,
     colSm: Number,
     colMd: Number,

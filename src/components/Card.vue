@@ -28,7 +28,7 @@
               </a>
             </div>
           </div>
-          <div class="col-auto">
+          <div class="col-auto fa-2x text-gray-300">
             <font-awesome-icon :icon="icon" />
           </div>
         </div>

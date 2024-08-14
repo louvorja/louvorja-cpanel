@@ -31,8 +31,8 @@
                     <alert danger v-if="error">{{ error }}</alert>
 
                     <form
-                      @submit.prevent="handleSubmit"
-                      @keydown.enter="handleSubmit"
+                      @submit.prevent="submit"
+                      @keydown.enter="submit"
                       class="user"
                     >
                       <div class="form-group mb-2">
@@ -137,15 +137,18 @@ export default {
       let self = this;
 
       self.error = "";
-      self.messages = null;
+      self.messages = {
+        username: null,
+        password: null,
+      };
       Auth.login(this.user, function (resp, data) {
         if (!resp) {
           self.error = !data.messages ? data.error : "";
-          self.messages = data.messages;
+          self.messages = Object.assign(self.messages, data.messages);
         }
       });
     },
-    handleSubmit() {
+    submit() {
       this.login();
     },
   },

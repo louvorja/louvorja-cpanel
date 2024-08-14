@@ -40,9 +40,11 @@ export function refresh(callback = function () { }) {
             store.commit('setAuth', resp);
             store.commit('setUser', data.user);
             if (resp) {
+                console.log("refresh")
                 Api.set_token(data.token);
             } else {
                 Api.remove_token();
+                removeElements();
             }
             callback(resp, data);
         });
@@ -52,4 +54,23 @@ export function refresh(callback = function () { }) {
         store.commit('setAuth', false);
         callback(false, null);
     }
+}
+
+export function changePassword(params, callback = function () { }) {
+    refresh(function (resp, data) {
+        if (!resp) {
+            callback(resp, data);
+        } else {
+            store.commit('setLoading', true);
+            Api.post('auth/change-password', params, function (resp, data) {
+                store.commit('setLoading', false);
+                callback(resp, data);
+            });
+        }
+    });
+}
+
+export function removeElements() {
+    const backdrops = document.getElementsByClassName('modal-backdrop');
+    Array.from(backdrops).forEach(backdrop => backdrop.parentNode.removeChild(backdrop));
 }
