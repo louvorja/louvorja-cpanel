@@ -1,6 +1,11 @@
 <template>
   <title-page>Dados Pessoais</title-page>
 
+  <p class="mb-3">
+    Caso algum dado esteja incorreto, entre em contato com o administrador e
+    solicite correção.
+  </p>
+
   <div class="row">
     <card label="Nome" icon="user">{{ user.name }}</card>
     <card

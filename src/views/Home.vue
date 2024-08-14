@@ -1,5 +1,5 @@
 <template>
-  <title-page>Dashboard</title-page>
+  <title-page :mb="3">Dashboard</title-page>
 
   <!-- Content Row -->
   <div class="row">
