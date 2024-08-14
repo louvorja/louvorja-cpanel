@@ -64,7 +64,9 @@ export function changePassword(params, callback = function () { }) {
             store.commit('setLoading', true);
             Api.post('auth/change-password', params, function (resp, data) {
                 store.commit('setLoading', false);
-                callback(resp, data);
+                refresh(function () {
+                    callback(resp, data);
+                });
             });
         }
     });
