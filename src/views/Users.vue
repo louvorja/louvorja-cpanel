@@ -15,19 +15,17 @@
         @button="actions"
         :columns="[
           { name: 'id', label: 'ID', type: 'number' },
-          { name: 'name', label: 'Name' },
-          { name: 'username', label: 'Usuário', sortable: false },
+          { name: 'name', label: 'Nome' },
+          { name: 'username', label: 'Usuário' },
           { name: 'email', label: 'Email' },
+          { name: 'phone', label: 'Telefone' },
           {
-            buttons: [
-              'edit',
-              'delete',
-              {
-                id: 'asd',
-                label: 'as',
-                icon: 'user',
-              },
-            ],
+            name: 'is_temporary_password',
+            label: 'Senha Provisória?',
+            type: 'boolean',
+          },
+          {
+            buttons: ['edit', 'delete'],
           },
         ]"
       />

@@ -7,7 +7,7 @@
       (colMd ? ' col-md-' + colMd : '') +
       (colLg ? ' col-lg-' + colLg : '') +
       (colXl ? ' col-xl-' + colXl : '') +
-      (colXxl ? ' xxl-xl-' + colXxl : '')
+      (colXxl ? ' col-xxl-' + colXxl : '')
     "
   >
     <label :for="id" class="form-label">{{ label }}</label>

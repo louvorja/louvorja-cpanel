@@ -4,6 +4,37 @@
     <alert danger v-if="!url">Parâmetro [url] não definido</alert>
 
     {{ options }}
+    <div class="row p-0 m-0 mb-2">
+      <div class="p-0 col-0 col-sm-3 col-md-5 col-lg-7 col-xl-8 col-xxl-9" />
+      <div class="p-0 col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-3">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Localizar..."
+            aria-label="Localizar..."
+            v-model="data_search"
+            @change="load"
+            @keyup.enter="load"
+          />
+          <span class="input-group-text">
+            <font-awesome-icon icon="magnifying-glass" />
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-0 m-0 text-end">
+      <span v-if="data.total && data.total > 0">
+        <span v-if="data.last_page && data.last_page > 1">
+          <b>{{ data.from }}</b> a <b>{{ data.to }}</b> de
+        </span>
+        <b>{{ data.total }}</b>
+        <span v-if="data.total > 1"> registros encontrados</span>
+        <span v-else> registro encontrado</span>
+      </span>
+      <span v-else> Nenhum registro encontrado</span>
+    </div>
 
     <table class="table table-striped table-hover" v-if="columns && url">
       <thead>
@@ -12,7 +43,7 @@
             v-for="(column, index) in columns"
             :key="index"
             scope="col"
-            class="table-dark"
+            class="table-dark align-middle"
             :class="{
               sortable: !column.name ? false : column.sortable ?? true,
               'table-sorted':
@@ -32,6 +63,7 @@
               'sorted-desc':
                 options.sort_by && options.sort_by == column.name + '.desc',
               'text-end': column.type == 'number',
+              'text-center': column.type == 'boolean',
             }"
             @click="
               column.name && (column.sortable ?? true)
@@ -55,6 +87,7 @@
           <td
             v-for="(column, index) in columns"
             :key="index"
+            class="align-middle"
             :class="{
               'table-sorted':
                 options.sort_by &&
@@ -62,9 +95,18 @@
                   options.sort_by == column.name + '.asc' ||
                   options.sort_by == column.name + '.desc'),
               'text-end': column.type == 'number',
+              'text-center': column.type == 'boolean',
             }"
           >
-            {{ row[column.name] ?? "" }}
+            <span
+              v-if="column.type == 'boolean'"
+              :class="row[column.name] ? 'text-success' : 'text-danger'"
+            >
+              <font-awesome-icon :icon="row[column.name] ? 'check' : 'times'" />
+            </span>
+            <span v-else>
+              {{ row[column.name] ?? "" }}
+            </span>
             <div
               class="btn-group btn-group-sm float-end"
               role="group"
@@ -167,6 +209,7 @@ export default {
     limit: Number,
     sort_by: String,
     page: Number,
+    search: String,
   },
   data() {
     return {
@@ -176,6 +219,7 @@ export default {
       },
       error: "",
       loading: false,
+      data_search: this.search ?? "",
       data: {},
     };
   },
@@ -191,6 +235,17 @@ export default {
     },
     loading(newValue) {
       this.$emit("update:refresh", newValue);
+      if (!newValue) {
+        if (
+          this.options.page &&
+          this.data.last_page &&
+          this.options.page > this.data.last_page
+        ) {
+          this.options.page = 1;
+          this.load();
+          //console.log("ccccccc",this.data.last_page, this.options.page);
+        }
+      }
     },
   },
   methods: {
@@ -239,6 +294,19 @@ export default {
           Object.entries(this.options).filter(([, value]) => value !== null)
         );
 
+        if (this.data_search) {
+          this.columns.map((column) => {
+            if (column.name) {
+              if (column.type == "number") {
+                options[column.name] = "or:" + this.data_search;
+              } else {
+                options[column.name] = "orlike:*" + this.data_search + "*";
+              }
+            }
+          });
+          console.log(options);
+        }
+
         let params = "";
         if (options) {
           params = `?${this.data_to_url(options)}`;
@@ -261,7 +329,13 @@ export default {
         });
 
         if (!response.ok) {
-          this.error = `Erro ${response.status} - ${response.statusText} | Atualize a página e tente novamente.`;
+          let data = await response.json();
+          if (data.error != undefined && data.error != "") {
+            this.error = data.error;
+            this.loading = false;
+            return false;
+          }
+          this.error = `Erro ${response.status} - ${response.statusText}.`;
           this.loading = false;
           return false;
         }
