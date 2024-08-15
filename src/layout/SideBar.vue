@@ -28,7 +28,7 @@
     <item-menu label="Músicas" icon="cog" active>
       <h6 class="collapse-header">Custom Components:</h6>
       <router-link class="collapse-item" to="/">Buttons</router-link>
-      <router-link class="collapse-item" to="/about">Sobre</router-link>
+      <router-link class="collapse-item" to="/users">Sobre</router-link>
     </item-menu>
 
     <item-menu label="Utilitários" icon="wrench">

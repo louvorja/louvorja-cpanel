@@ -2,6 +2,10 @@ import store from "@/store";
 
 const Api = require("@/services/Api");
 
+export function url() {
+    return Api.url('admin/users');
+}
+
 export function list(params, callback = function () { }) {
     store.commit('setLoading', true);
     Api.get('admin/users', params, function (resp, data) {

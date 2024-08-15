@@ -1,26 +1,76 @@
 <template>
   <title-page :mb="3">Usuários</title-page>
 
-  <div class="row"></div>
+  ..{{ refresh }}..
+  <a href="javascript:" @click="refresh = !refresh">REFRESH</a>
+  <div class="card">
+    <div class="card-body">
+      <data-table
+        v-model:refresh="refresh"
+        v-if="!loading"
+        :url="url"
+        :headers="headers"
+        sort_by="name"
+        :limit="5"
+        @button="actions"
+        :columns="[
+          { name: 'id', label: 'ID', type: 'number' },
+          { name: 'name', label: 'Name' },
+          { name: 'username', label: 'Usuário', sortable: false },
+          { name: 'email', label: 'Email' },
+          {
+            buttons: [
+              'edit',
+              'delete',
+              {
+                id: 'asd',
+                label: 'as',
+                icon: 'user',
+              },
+            ],
+          },
+        ]"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-//const User = require("@/controllers/User");
+const Api = require("@/services/Api");
+const User = require("@/controllers/User");
+
+import { mapGetters } from "vuex";
 
 import TitlePage from "@/components/Title.vue";
+import DataTable from "@/components/DataTable.vue";
 
 export default {
   name: "UsersPage",
   components: {
     TitlePage,
+    DataTable,
+  },
+  data() {
+    return {
+      refresh: false,
+    };
+  },
+  computed: {
+    url() {
+      return User.url();
+    },
+    headers() {
+      return Api.headers();
+    },
+    ...mapGetters(["loading"]),
   },
   methods: {
-    loadData() {
-      // User.list([]);
+    actions(data) {
+      console.log(data);
     },
   },
   mounted() {
-    this.loadData();
+    //this.loadData();
   },
 };
 </script>

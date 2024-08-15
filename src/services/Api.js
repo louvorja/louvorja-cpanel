@@ -28,11 +28,7 @@ export async function call(method, route, options = null, body = null, callback 
 
     let url = this.url(route + params);
 
-    let headers = {
-        'Content-Type': 'application/json',
-        'Api-Token': this.api_token(),
-        'Authorization': `Bearer ${this.auth_token()}`
-    };
+    let headers = this.headers();
 
     if (body) {
         body = JSON.stringify(body || {});
@@ -82,6 +78,13 @@ export function base_url() {
 export function url(route) {
     let url = `${this.base_url()}/${route}`;
     return url;
+}
+export function headers() {
+    return {
+        'Content-Type': 'application/json',
+        'Api-Token': this.api_token(),
+        'Authorization': `Bearer ${this.auth_token()}`
+    }
 }
 export function data_to_url(data) {
     return new URLSearchParams(data).toString();
