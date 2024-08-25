@@ -1,19 +1,23 @@
 <template>
   <title-page :mb="3">Usuários</title-page>
 
-  ..{{ refresh }}..
   <a href="javascript:" @click="refresh = !refresh">REFRESH</a>
   <div class="card">
     <div class="card-body">
-      <data-table
-        v-model:refresh="refresh"
-        v-if="!loading"
-        :url="url"
-        :headers="headers"
+      <page
+        v-if="loaded"
+        url="admin/users"
+        id_field="id"
+        :fields="[
+          [
+            { name: 'name', label: 'Nome' },
+            { name: 'username', label: 'Nome de Usuário' },
+            { name: 'email', label: 'E-mail' },
+            { type: 'password', name: 'password', label: 'Senha Provisória' },
+          ],
+        ]"
         sort_by="name"
-        :limit="5"
-        @button="actions"
-        :columns="[
+        :grid_columns="[
           { name: 'id', label: 'ID', type: 'number' },
           { name: 'name', label: 'Nome' },
           { name: 'username', label: 'Usuário' },
@@ -24,9 +28,6 @@
             label: 'Senha Provisória?',
             type: 'boolean',
           },
-          {
-            buttons: ['edit', 'delete'],
-          },
         ]"
       />
     </div>
@@ -34,41 +35,36 @@
 </template>
 
 <script>
-const Api = require("@/services/Api");
-const User = require("@/controllers/User");
-
 import { mapGetters } from "vuex";
 
 import TitlePage from "@/components/Title.vue";
-import DataTable from "@/components/DataTable.vue";
+import Page from "@/components/Page.vue";
 
 export default {
   name: "UsersPage",
   components: {
     TitlePage,
-    DataTable,
+    Page,
   },
   data() {
     return {
-      refresh: false,
+      loaded: false,
     };
   },
   computed: {
-    url() {
-      return User.url();
-    },
-    headers() {
-      return Api.headers();
-    },
     ...mapGetters(["loading"]),
   },
-  methods: {
-    actions(data) {
-      console.log(data);
+  watch: {
+    loading(newValue) {
+      if (!newValue) {
+        this.loaded = true;
+      }
     },
   },
   mounted() {
-    //this.loadData();
+    if (!this.loading) {
+      this.loaded = true;
+    }
   },
 };
 </script>

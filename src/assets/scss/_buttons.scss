@@ -51,7 +51,7 @@
   }
 }
 
-.btn-danger {
+.btn:not(.btn-light) {
   --bs-btn-color: #fff;
   --bs-btn-hover-color: #fff;
   --bs-btn-active-color: #fff;

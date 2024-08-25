@@ -3,8 +3,7 @@
     <alert danger v-if="!columns">Parâmetro [columns] não definido</alert>
     <alert danger v-if="!url">Parâmetro [url] não definido</alert>
 
-    {{ options }}
-    <div class="row p-0 m-0 mb-2">
+    <div class="row p-0 m-0 mb-2 mt-2">
       <div class="p-0 col-0 col-sm-3 col-md-5 col-lg-7 col-xl-8 col-xxl-9" />
       <div class="p-0 col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-3">
         <div class="input-group">
@@ -193,6 +192,8 @@
 </template>
 
 <script>
+const Api = require("@/services/Api");
+
 import Alert from "@/components/Alert.vue";
 
 export default {
@@ -204,7 +205,6 @@ export default {
   props: {
     refresh: Boolean,
     url: String,
-    headers: Object,
     columns: Object,
     limit: Number,
     sort_by: String,
@@ -243,7 +243,6 @@ export default {
         ) {
           this.options.page = 1;
           this.load();
-          //console.log("ccccccc",this.data.last_page, this.options.page);
         }
       }
     },
@@ -304,55 +303,15 @@ export default {
               }
             }
           });
-          console.log(options);
         }
-
-        let params = "";
-        if (options) {
-          params = `?${this.data_to_url(options)}`;
-        }
-
-        let url = this.url + params;
-        console.log(url);
-
-        let headers = this.headers;
 
         this.loading = true;
-
-        let response = await fetch(url, {
-          method: "get",
-          headers,
-        }).catch((err) => {
-          self.error = err;
+        Api.get(this.url, options, function (resp, data) {
           self.loading = false;
-          return false;
+          self.error = data.error ?? "";
+          self.data = data;
         });
-
-        if (!response.ok) {
-          let data = await response.json();
-          if (data.error != undefined && data.error != "") {
-            this.error = data.error;
-            this.loading = false;
-            return false;
-          }
-          this.error = `Erro ${response.status} - ${response.statusText}.`;
-          this.loading = false;
-          return false;
-        }
-
-        if (response.ok) {
-          let data = await response.json();
-          this.data = data;
-          this.loading = false;
-          if (data.error != undefined && data.error != "") {
-            this.error = data.error;
-            return false;
-          }
-        }
       }
-    },
-    data_to_url(data) {
-      return new URLSearchParams(data).toString();
     },
   },
   mounted() {
