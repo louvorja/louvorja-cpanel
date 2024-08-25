@@ -33,6 +33,13 @@
         <span v-else> registro encontrado</span>
       </span>
       <span v-else> Nenhum registro encontrado</span>
+      <a
+        href="javascript:"
+        class="ms-1 mb-1 btn btn-sm btn-primary"
+        @click="load()"
+      >
+        Atualizar
+      </a>
     </div>
 
     <table class="table table-striped table-hover" v-if="columns && url">

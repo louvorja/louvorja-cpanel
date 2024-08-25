@@ -31,6 +31,7 @@
 const Api = require("@/services/Api");
 
 import { mapMutations } from "vuex";
+import Swal from "sweetalert2";
 
 import DataTable from "@/components/DataTable.vue";
 import FormPage from "@/components/Form.vue";
@@ -61,6 +62,24 @@ export default {
       messages: {},
       data: {},
     };
+  },
+  watch: {
+    error(newValue) {
+      if (newValue != "") {
+        Swal.fire({
+          title: newValue,
+          icon: "error",
+        });
+      }
+    },
+    success(newValue) {
+      if (newValue != "") {
+        Swal.fire({
+          title: newValue,
+          icon: "success",
+        });
+      }
+    },
   },
   methods: {
     ...mapMutations(["setLoading"]),
@@ -99,11 +118,15 @@ export default {
         this.setLoading(true);
         Api.post(`${this.url}`, this.data, function (resp, data) {
           self.setLoading(false);
-          self.error = data.error ?? "";
+          self.error = !data.messages ? data.error ?? "" : "";
+          self.messages = Object.assign(self.messages, data.messages);
           self.success = data.message ?? "";
-          self.data = data.data ?? {};
-          self.id = data.data ? data.data[self.id_field] ?? null : null;
-          self.refresh = true;
+
+          if (resp) {
+            self.data = data.data ?? {};
+            self.id = data.data ? data.data[self.id_field] ?? null : null;
+            self.refresh = true;
+          }
         });
       } else if (data.button == "update") {
         this.reset_messages();
@@ -115,28 +138,48 @@ export default {
           this.data,
           function (resp, data) {
             self.setLoading(false);
-            self.error = data.error ?? "";
+            self.error = !data.messages ? data.error ?? "" : "";
+            self.messages = Object.assign(self.messages, data.messages);
             self.success = data.message ?? "";
-            self.data = data.data ?? {};
-            self.id = data.data ? data.data[self.id_field] ?? null : null;
-            self.refresh = true;
+
+            if (resp) {
+              self.data = data.data ?? {};
+              self.id = data.data ? data.data[self.id_field] ?? null : null;
+              self.refresh = true;
+            }
           }
         );
       } else if (data.button == "delete") {
-        this.reset_messages();
-
         let self = this;
-        this.setLoading(true);
-        Api.remove(
-          `${this.url}/${data.data[this.id_field] ?? 0}`,
-          function (resp, data) {
-            self.setLoading(false);
-            self.error = data.error ?? "";
-            self.success = data.message ?? "";
-            self.reset();
-            self.refresh = true;
+
+        Swal.fire({
+          title: "Deseja remover este registro?",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Sim",
+          denyButtonText: "Não",
+          icon: "warning",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            self.reset_messages();
+
+            self.setLoading(true);
+            Api.remove(
+              `${this.url}/${data.data[this.id_field] ?? 0}`,
+              function (resp, data) {
+                self.setLoading(false);
+                self.error = !data.messages ? data.error ?? "" : "";
+                self.messages = Object.assign(self.messages, data.messages);
+                self.success = data.message ?? "";
+
+                if (resp) {
+                  self.reset();
+                  self.refresh = true;
+                }
+              }
+            );
           }
-        );
+        });
       } else if (data.button == "cancel") {
         this.reset();
         this.reset_messages();

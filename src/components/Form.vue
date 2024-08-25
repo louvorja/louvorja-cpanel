@@ -1,7 +1,4 @@
 <template>
-  MODEL:{{ modelValue ?? {} }}
-  <hr />
-  DATA:{{ data }}
   <div v-for="(row, index) in fields" :key="index" class="row">
     <input-field
       v-for="(field, index) in row"
@@ -9,6 +6,14 @@
       v-model="data[field.name]"
       :label="field.label ?? ''"
       :type="field.type ?? 'text'"
+      :error="messages[field.name] ?? ''"
+      :help="field.help ?? ''"
+      :col="field.col ? field.col[0] ?? 0 : 0"
+      :col-sm="field.col ? field.col[1] ?? 0 : 0"
+      :col-md="field.col ? field.col[2] ?? 0 : 0"
+      :col-lg="field.col ? field.col[3] ?? 0 : 0"
+      :col-xl="field.col ? field.col[4] ?? 0 : 0"
+      :col-xxl="field.col ? field.col[5] ?? 0 : 0"
     />
   </div>
 
@@ -92,6 +97,7 @@ export default {
     fields: Array,
     insert_buttons: Array,
     update_buttons: Array,
+    col: Array,
   },
   data() {
     return {

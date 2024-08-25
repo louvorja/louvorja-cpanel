@@ -1,7 +1,6 @@
 <template>
   <title-page :mb="3">Usuários</title-page>
 
-  <a href="javascript:" @click="refresh = !refresh">REFRESH</a>
   <div class="card">
     <div class="card-body">
       <page
@@ -10,10 +9,20 @@
         id_field="id"
         :fields="[
           [
-            { name: 'name', label: 'Nome' },
-            { name: 'username', label: 'Nome de Usuário' },
-            { name: 'email', label: 'E-mail' },
-            { type: 'password', name: 'password', label: 'Senha Provisória' },
+            { name: 'name', label: 'Nome', col: [12, 12, 12, 6, 6, 6] },
+            { name: 'email', label: 'E-mail', col: [12, 12, 12, 6, 6, 6] },
+            {
+              name: 'username',
+              label: 'Nome de Usuário',
+              col: [12, 6, 6, 6, 6, 6],
+            },
+            {
+              type: 'password',
+              name: 'password',
+              label: 'Senha Provisória',
+              help: 'Deixe em branco para não alterar',
+              col: [12, 6, 6, 6, 6, 6],
+            },
           ],
         ]"
         sort_by="name"
