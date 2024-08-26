@@ -19,24 +19,130 @@
 
     <hr class="sidebar-divider my-0" />
 
-    <item-menu label="Dashboard" icon="tachometer-alt" href="/" active />
+    <item-menu
+      label="Dashboard"
+      icon="tachometer-alt"
+      href="/"
+      :active="route == '/'"
+    />
 
     <hr class="sidebar-divider" />
 
     <div class="sidebar-heading">APLICAÇÃO</div>
 
-    <item-menu label="Músicas" icon="cog" active>
-      <h6 class="collapse-header">Custom Components:</h6>
-      <router-link class="collapse-item" to="/">Buttons</router-link>
-      <router-link class="collapse-item" to="/users">Sobre</router-link>
+    <item-menu
+      v-if="
+        this.user.is_admin || (this.user.permissions ?? []).includes('users')
+      "
+      :active="['/users'].includes(route)"
+      label="Acessos"
+      icon="wrench"
+    >
+      <router-link
+        v-if="
+          this.user.is_admin || (this.user.permissions ?? []).includes('users')
+        "
+        :class="{ active: route == '/users' }"
+        to="/users"
+        class="collapse-item"
+      >
+        Usuários
+      </router-link>
+    </item-menu>
+
+    <item-menu
+      v-if="
+        this.user.is_admin ||
+        (this.user.permissions ?? []).includes('categories') ||
+        (this.user.permissions ?? []).includes('categories_albums') ||
+        (this.user.permissions ?? []).includes('albums') ||
+        (this.user.permissions ?? []).includes('albums_musics')
+      "
+      :active="
+        [
+          '/categories',
+          '/categories_albums',
+          '/albums',
+          '/albums_musics',
+        ].includes(route)
+      "
+      label="Grupos"
+      icon="compact-disc"
+    >
+      <h6
+        v-if="
+          this.user.is_admin ||
+          (this.user.permissions ?? []).includes('categories') ||
+          (this.user.permissions ?? []).includes('categories_albums')
+        "
+        class="collapse-header"
+      >
+        Categorias:
+      </h6>
+      <router-link
+        v-if="
+          this.user.is_admin ||
+          (this.user.permissions ?? []).includes('categories')
+        "
+        :class="{ active: route == '/categories' }"
+        to="/categories"
+        class="collapse-item"
+      >
+        Categorias
+      </router-link>
+      <router-link
+        v-if="
+          this.user.is_admin ||
+          (this.user.permissions ?? []).includes('categories_albums')
+        "
+        :class="{ active: route == '/categories_albums' }"
+        to="/categories_albums"
+        class="collapse-item"
+      >
+        Álbuns das Categorias
+      </router-link>
+
+      <h6
+        v-if="
+          this.user.is_admin ||
+          (this.user.permissions ?? []).includes('albums') ||
+          (this.user.permissions ?? []).includes('albums_musics')
+        "
+        class="collapse-header"
+      >
+        Álbuns:
+      </h6>
+      <router-link
+        v-if="
+          this.user.is_admin || (this.user.permissions ?? []).includes('albums')
+        "
+        :class="{ active: route == '/albums' }"
+        to="/albums"
+        class="collapse-item"
+      >
+        Álbuns
+      </router-link>
+      <router-link
+        v-if="
+          this.user.is_admin ||
+          (this.user.permissions ?? []).includes('albums_musics')
+        "
+        :class="{ active: route == '/albums_musics' }"
+        to="/albums_musics"
+        class="collapse-item"
+      >
+        Músicas dos Álbuns
+      </router-link>
+    </item-menu>
+
+    <item-menu label="Músicas" icon="music">
+      <router-link class="collapse-item" to="/">Músicas</router-link>
+      <router-link class="collapse-item" to="/users">Letras</router-link>
     </item-menu>
 
     <item-menu label="Utilitários" icon="wrench">
-      <h6 class="collapse-header">Custom Utilities:</h6>
-      <a class="collapse-item" href="utilities-color.html">Colors</a>
-      <a class="collapse-item" href="utilities-border.html">Borders</a>
-      <a class="collapse-item" href="utilities-animation.html">Animations</a>
-      <a class="collapse-item" href="utilities-other.html">Other</a>
+      <a class="collapse-item" href="utilities-color.html">Idiomas</a>
+      <a class="collapse-item" href="utilities-border.html">Arquivos</a>
     </item-menu>
 
     <!-- Divider -->
@@ -47,10 +153,18 @@
 <script>
 import ItemMenu from "@/components/ItemMenu.vue";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "SideBarLayout",
   components: {
     ItemMenu,
+  },
+  computed: {
+    route() {
+      return this.$route.path;
+    },
+    ...mapGetters(["user"]),
   },
 };
 </script>

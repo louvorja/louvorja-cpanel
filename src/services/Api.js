@@ -14,6 +14,12 @@ export function post(route, body = null, callback = function () { }) {
     });
 }
 
+export function patch(route, body = null, callback = function () { }) {
+    this.call("put", route, null, body, (resp, data) => {
+        callback(resp, data);
+    });
+}
+
 export function remove(route, callback = function () { }) {
     this.call("delete", route, null, null, (resp, data) => {
         callback(resp, data);

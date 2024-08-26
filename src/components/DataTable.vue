@@ -69,7 +69,7 @@
               'sorted-desc':
                 options.sort_by && options.sort_by == column.name + '.desc',
               'text-end': column.type == 'number',
-              'text-center': column.type == 'boolean',
+              'text-center': column.type == 'boolean' || column.type == 'flag',
             }"
             @click="
               column.name && (column.sortable ?? true)
@@ -101,7 +101,7 @@
                   options.sort_by == column.name + '.asc' ||
                   options.sort_by == column.name + '.desc'),
               'text-end': column.type == 'number',
-              'text-center': column.type == 'boolean',
+              'text-center': column.type == 'boolean' || column.type == 'flag',
             }"
           >
             <span
@@ -110,6 +110,10 @@
             >
               <font-awesome-icon :icon="row[column.name] ? 'check' : 'times'" />
             </span>
+            <flag
+              v-else-if="column.type == 'flag'"
+              :iso="row[column.name] == 'pt' ? 'br' : row[column.name]"
+            />
             <span v-else>
               {{ row[column.name] ?? "" }}
             </span>
@@ -123,6 +127,17 @@
                 :key="button.id"
                 type="button"
                 class="btn"
+                :disabled="
+                  !(button.id == 'edit'
+                    ? can_view ?? true
+                    : button.id == 'insert' || button.id == 'insert_new'
+                    ? can_insert ?? true
+                    : button.id == 'update'
+                    ? can_update ?? true
+                    : button.id == 'delete'
+                    ? can_delete ?? true
+                    : true)
+                "
                 :class="
                   button.color
                     ? 'btn-' + button.color
@@ -217,6 +232,22 @@ export default {
     sort_by: String,
     page: Number,
     search: String,
+    can_view: {
+      type: Boolean,
+      default: true,
+    },
+    can_insert: {
+      type: Boolean,
+      default: true,
+    },
+    can_update: {
+      type: Boolean,
+      default: true,
+    },
+    can_delete: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {

@@ -9,6 +9,9 @@
     :fields="fields"
     :insert_buttons="['insert', 'cancel']"
     :update_buttons="['insert_new', 'update', 'delete', 'cancel']"
+    :can_insert="can_insert"
+    :can_update="can_update"
+    :can_delete="can_delete"
     @button="actions"
   />
 
@@ -16,7 +19,10 @@
     v-model:refresh="refresh"
     :url="url"
     :sort_by="sort_by"
-    :limit="5"
+    :can_view="can_view"
+    :can_insert="can_insert"
+    :can_update="can_update"
+    :can_delete="can_delete"
     @button="actions"
     :columns="[
       ...grid_columns,
@@ -51,6 +57,10 @@ export default {
     fields: Array,
     grid_columns: Array,
     sort_by: String,
+    can_view: Boolean,
+    can_insert: Boolean,
+    can_update: Boolean,
+    can_delete: Boolean,
   },
   data() {
     return {
@@ -133,7 +143,7 @@ export default {
 
         let self = this;
         this.setLoading(true);
-        Api.post(
+        Api.patch(
           `${this.url}/${data.data[this.id_field] ?? 0}`,
           this.data,
           function (resp, data) {

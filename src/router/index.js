@@ -18,6 +18,11 @@ const routes = [
     name: 'Users',
     component: () => import('../views/Users.vue'),
   },
+  {
+    path: '/categories',
+    name: 'Categories',
+    component: () => import('../views/Categories.vue'),
+  },
 ];
 
 

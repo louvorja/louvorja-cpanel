@@ -17,10 +17,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 
+import FlagIcon from 'vue-flag-icon'
+
 createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
     .component('v-select', vSelect)
     .use(router)
     .use(store)
     .use(VueSweetalert2)
+    .use(FlagIcon)
     .mount('#app');

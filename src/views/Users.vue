@@ -7,10 +7,21 @@
         v-if="loaded"
         url="admin/users"
         id_field="id"
+        :can_view="can_view"
+        :can_insert="can_insert"
+        :can_update="can_update"
+        :can_delete="can_delete"
         :fields="[
           [
-            { name: 'name', label: 'Nome', col: [12, 12, 12, 6, 6, 6] },
-            { name: 'email', label: 'E-mail', col: [12, 12, 12, 6, 6, 6] },
+            {
+              type: 'number',
+              name: 'id',
+              label: 'ID',
+              disabled: true,
+              col: [12, 2, 2, 2, 2, 2],
+            },
+            { name: 'name', label: 'Nome', col: [12, 10, 10, 5, 5, 5] },
+            { name: 'email', label: 'E-mail', col: [12, 12, 12, 5, 5, 5] },
             {
               name: 'username',
               label: 'Nome de Usuário',
@@ -28,10 +39,32 @@
               name: 'permissions',
               label: 'Permissões',
               options: [
-                { label: 'Usuários', code: 'users' },
-                { label: 'Usuários | Cadastro', code: 'users.store' },
-                { label: 'Usuários | Alteração', code: 'users.update' },
-                { label: 'Usuários | Exclusão', code: 'users.delete' },
+                { label: 'users | Usuários', code: 'users' },
+                {
+                  label: 'users.insert | Usuários - Cadastro',
+                  code: 'users.insert',
+                },
+                {
+                  label: 'users.update | Usuários - Alteração',
+                  code: 'users.update',
+                },
+                {
+                  label: 'users.delete | Usuários - Exclusão',
+                  code: 'users.delete',
+                },
+                { label: 'categories | Categorias', code: 'categories' },
+                {
+                  label: 'categories.insert | Categorias - Cadastro',
+                  code: 'categories.insert',
+                },
+                {
+                  label: 'categories.update | Categorias - Alteração',
+                  code: 'categories.update',
+                },
+                {
+                  label: 'categories.delete | Categorias - Exclusão',
+                  code: 'categories.delete',
+                },
               ],
               col: [12],
             },
@@ -73,7 +106,30 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["loading"]),
+    can_view() {
+      return (
+        (this.user.permissions ?? []).includes("users") || this.user.is_admin
+      );
+    },
+    can_insert() {
+      return (
+        (this.user.permissions ?? []).includes("users.insert") ||
+        this.user.is_admin
+      );
+    },
+    can_update() {
+      return (
+        (this.user.permissions ?? []).includes("users.update") ||
+        this.user.is_admin
+      );
+    },
+    can_delete() {
+      return (
+        (this.user.permissions ?? []).includes("users.delete") ||
+        this.user.is_admin
+      );
+    },
+    ...mapGetters(["loading", "user"]),
   },
   watch: {
     loading(newValue) {

@@ -1,5 +1,6 @@
 <template>
   <div v-for="(row, index) in fields" :key="index" class="row">
+
     <input-field
       v-for="(field, index) in row"
       :key="index"
@@ -9,6 +10,7 @@
       :error="messages[field.name] ?? ''"
       :help="field.help ?? ''"
       :options="field.options ?? []"
+      :disabled="field.disabled ?? false"
       :col="field.col ? field.col[0] ?? 0 : 0"
       :col-sm="field.col ? field.col[1] ?? 0 : 0"
       :col-md="field.col ? field.col[2] ?? 0 : 0"
@@ -25,6 +27,17 @@
       :key="button.id"
       type="button"
       class="ms-2 btn"
+      :disabled="
+        !(button.id == 'edit'
+          ? can_view ?? true
+          : button.id == 'insert' || button.id == 'insert_new'
+          ? can_insert ?? true
+          : button.id == 'update'
+          ? can_update ?? true
+          : button.id == 'delete'
+          ? can_delete ?? true
+          : true)
+      "
       :class="
         button.color
           ? 'btn-' + button.color
@@ -99,6 +112,19 @@ export default {
     insert_buttons: Array,
     update_buttons: Array,
     col: Array,
+    disabled: Boolean,
+    can_insert: {
+      type: Boolean,
+      default: true,
+    },
+    can_update: {
+      type: Boolean,
+      default: true,
+    },
+    can_delete: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {

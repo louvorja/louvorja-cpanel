@@ -12,14 +12,18 @@
   >
     <label :for="id" class="form-label">{{ label }}</label>
     <v-select
-      v-if="type == 'select' || type == 'multiple'"
+      v-if="type == 'select' || type == 'multiple' || type == 'lang'"
       :multiple="type == 'multiple'"
-      :options="options"
+      :options="local_options"
+      :class="{
+        'is-invalid': error,
+      }"
       :id="id"
       :modelValue="selectValue"
       :selectable="
         (option) => (modelValue ? !modelValue.includes(option.code) : true)
       "
+      :disabled="disabled"
       @update:modelValue="onSelect"
     />
     <input
@@ -32,6 +36,7 @@
       :id="id"
       :aria-describedby="id + 'Help'"
       :value="modelValue"
+      :disabled="disabled"
       @input="onInput"
     />
     <div v-if="help" :id="id + 'Help'" class="form-text">
@@ -46,18 +51,21 @@
 </template>
 
 <script>
+const Langs = require("@/helpers/Langs");
+
 import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "InputComponent",
   inheritAttrs: false,
   props: {
-    modelValue: [String, Array],
+    modelValue: [String, Array, Number],
     label: String,
     type: String,
     help: String,
     error: [String, Array],
     options: Array,
+    disabled: Boolean,
     col: Number,
     colSm: Number,
     colMd: Number,
@@ -68,6 +76,7 @@ export default {
   data() {
     return {
       id: uuidv4(),
+      local_options: [],
     };
   },
   computed: {
@@ -86,12 +95,16 @@ export default {
       if (!this.modelValue) {
         return [];
       }
-      return this.options.filter((item) => this.modelValue.includes(item.code));
+      return this.local_options.filter((item) =>
+        this.modelValue.includes(item.code)
+      );
+    },
+    langs() {
+      return Langs.list();
     },
   },
   methods: {
     onInput(event) {
-      console.log("emit", event.target.value);
       this.$emit("update:modelValue", event.target.value);
     },
     onSelect: function (value) {
@@ -116,6 +129,14 @@ export default {
       }
       this.$emit("update:modelValue", emit);
     },
+  },
+  mounted() {
+    if (this.type == "lang") {
+      console.log("ffff");
+      this.local_options = Langs.list();
+    } else {
+      this.local_options = this.options ?? [];
+    }
   },
 };
 </script>
