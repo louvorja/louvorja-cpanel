@@ -23,6 +23,18 @@
               help: 'Deixe em branco para não alterar',
               col: [12, 6, 6, 6, 6, 6],
             },
+            {
+              type: 'multiple',
+              name: 'permissions',
+              label: 'Permissões',
+              options: [
+                { label: 'Usuários', code: 'users' },
+                { label: 'Usuários | Cadastro', code: 'users.store' },
+                { label: 'Usuários | Alteração', code: 'users.update' },
+                { label: 'Usuários | Exclusão', code: 'users.delete' },
+              ],
+              col: [12],
+            },
           ],
         ]"
         sort_by="name"

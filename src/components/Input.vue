@@ -11,7 +11,19 @@
     "
   >
     <label :for="id" class="form-label">{{ label }}</label>
+    <v-select
+      v-if="type == 'select' || type == 'multiple'"
+      :multiple="type == 'multiple'"
+      :options="options"
+      :id="id"
+      :modelValue="selectValue"
+      :selectable="
+        (option) => (modelValue ? !modelValue.includes(option.code) : true)
+      "
+      @update:modelValue="onSelect"
+    />
     <input
+      v-else
       :type="type ?? 'text'"
       class="form-control"
       :class="{
@@ -40,11 +52,12 @@ export default {
   name: "InputComponent",
   inheritAttrs: false,
   props: {
-    modelValue: String,
+    modelValue: [String, Array],
     label: String,
     type: String,
     help: String,
     error: [String, Array],
+    options: Array,
     col: Number,
     colSm: Number,
     colMd: Number,
@@ -69,10 +82,39 @@ export default {
         return [];
       }
     },
+    selectValue() {
+      if (!this.modelValue) {
+        return [];
+      }
+      return this.options.filter((item) => this.modelValue.includes(item.code));
+    },
   },
   methods: {
     onInput(event) {
+      console.log("emit", event.target.value);
       this.$emit("update:modelValue", event.target.value);
+    },
+    onSelect: function (value) {
+      let emit;
+      if (this.type == "multiple") {
+        emit = [];
+        emit = value.map((item) => {
+          if (typeof item == "object") {
+            return item.code ?? "";
+          }
+          return item;
+        });
+      } else {
+        emit = null;
+        if (value) {
+          if (typeof value == "object") {
+            emit = value.code ?? "";
+          } else {
+            emit = value;
+          }
+        }
+      }
+      this.$emit("update:modelValue", emit);
     },
   },
 };

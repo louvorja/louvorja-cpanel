@@ -8,6 +8,7 @@
       :type="field.type ?? 'text'"
       :error="messages[field.name] ?? ''"
       :help="field.help ?? ''"
+      :options="field.options ?? []"
       :col="field.col ? field.col[0] ?? 0 : 0"
       :col-sm="field.col ? field.col[1] ?? 0 : 0"
       :col-md="field.col ? field.col[2] ?? 0 : 0"

@@ -14,8 +14,12 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import '@/assets/scss/main.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
+
 createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
+    .component('v-select', vSelect)
     .use(router)
     .use(store)
     .use(VueSweetalert2)
