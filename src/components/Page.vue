@@ -12,8 +12,11 @@
     :can_insert="can_insert"
     :can_update="can_update"
     :can_delete="can_delete"
+    :filter="filter"
     @button="actions"
   />
+
+  <slot />
 
   <data-table
     v-model:refresh="refresh"
@@ -23,6 +26,7 @@
     :can_insert="can_insert"
     :can_update="can_update"
     :can_delete="can_delete"
+    :filter="filter"
     @button="actions"
     :columns="[
       ...grid_columns,
@@ -57,6 +61,7 @@ export default {
     fields: Array,
     grid_columns: Array,
     sort_by: String,
+    filter: Object,
     can_view: Boolean,
     can_insert: Boolean,
     can_update: Boolean,
@@ -89,6 +94,9 @@ export default {
           icon: "success",
         });
       }
+    },
+    data() {
+      this.emitData();
     },
   },
   methods: {
@@ -194,6 +202,9 @@ export default {
         this.reset();
         this.reset_messages();
       }
+    },
+    emitData() {
+      this.$emit("update:modelValue", this.data);
     },
   },
 };

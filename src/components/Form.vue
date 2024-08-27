@@ -1,6 +1,5 @@
 <template>
   <div v-for="(row, index) in fields" :key="index" class="row">
-
     <input-field
       v-for="(field, index) in row"
       :key="index"
@@ -10,7 +9,12 @@
       :error="messages[field.name] ?? ''"
       :help="field.help ?? ''"
       :options="field.options ?? []"
+      :options_url="field.options_url"
+      :options_label="field.options_label"
+      :options_key="field.options_key"
+      :options_params="field.options_params"
       :disabled="field.disabled ?? false"
+      :readonly="this.filter && this.filter[field.name] ? true : false"
       :col="field.col ? field.col[0] ?? 0 : 0"
       :col-sm="field.col ? field.col[1] ?? 0 : 0"
       :col-md="field.col ? field.col[2] ?? 0 : 0"
@@ -113,6 +117,7 @@ export default {
     update_buttons: Array,
     col: Array,
     disabled: Boolean,
+    filter: Object,
     can_insert: {
       type: Boolean,
       default: true,
@@ -133,7 +138,7 @@ export default {
   },
   watch: {
     modelValue(value) {
-      this.data = Object.assign({}, value);
+      this.data = Object.assign({}, value, this.filter);
     },
   },
   methods: {
@@ -154,6 +159,11 @@ export default {
       this.$emit("update:modelValue", this.data);
       this.$emit("button", { button, data: this.modelValue });
     },
+  },
+  mounted() {
+    if (this.filter) {
+      this.data = Object.assign({}, this.filter);
+    }
   },
 };
 </script>

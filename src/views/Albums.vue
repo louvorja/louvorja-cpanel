@@ -1,22 +1,22 @@
 <template>
-  <title-page :mb="3">Usuários</title-page>
+  <title-page :mb="3">Categorias</title-page>
 
   <div class="card">
     <div class="card-body">
-      <user-table />
+      <category-table />
     </div>
   </div>
 </template>
 
 <script>
 import TitlePage from "@/components/Title.vue";
-import UserTable from "@/views/partials/UserTable.vue";
+import CategoryTable from "@/views/partials/CategoryTable.vue";
 
 export default {
-  name: "UsersPage",
+  name: "CategoriesPage",
   components: {
     TitlePage,
-    UserTable,
+    CategoryTable,
   },
 };
 </script>

@@ -11,19 +11,34 @@
     "
   >
     <label :for="id" class="form-label">{{ label }}</label>
+    <div
+      v-if="loading"
+      class="spinner-border spinner-border-sm ms-2"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <v-select
-      v-if="type == 'select' || type == 'multiple' || type == 'lang'"
+      v-if="
+        type == 'select' ||
+        type == 'multiple' ||
+        type == 'select_data' ||
+        type == 'lang'
+      "
       :multiple="type == 'multiple'"
       :options="local_options"
       :class="{
-        'is-invalid': error,
+        'is-invalid': error_list,
       }"
       :id="id"
       :modelValue="selectValue"
       :selectable="
-        (option) => (modelValue ? !modelValue.includes(option.code) : true)
+        (option) =>
+          modelValue && type == 'multiple'
+            ? !modelValue.includes(option.code)
+            : true
       "
-      :disabled="disabled"
+      :disabled="disabled || readonly || loading"
       @update:modelValue="onSelect"
     />
     <input
@@ -31,18 +46,18 @@
       :type="type ?? 'text'"
       class="form-control"
       :class="{
-        'is-invalid': error,
+        'is-invalid': error_list,
       }"
       :id="id"
       :aria-describedby="id + 'Help'"
       :value="modelValue"
-      :disabled="disabled"
+      :disabled="disabled || readonly || loading"
       @input="onInput"
     />
     <div v-if="help" :id="id + 'Help'" class="form-text">
       {{ help }}
     </div>
-    <div v-if="error && error_list" class="invalid-feedback">
+    <div v-if="error_list" class="invalid-feedback">
       <div v-for="(message, index) in error_list" :key="index">
         {{ message }}
       </div>
@@ -51,6 +66,7 @@
 </template>
 
 <script>
+const Api = require("@/services/Api");
 const Langs = require("@/helpers/Langs");
 
 import { v4 as uuidv4 } from "uuid";
@@ -65,7 +81,12 @@ export default {
     help: String,
     error: [String, Array],
     options: Array,
+    options_url: String,
+    options_label: String,
+    options_key: String,
+    options_params: Object,
     disabled: Boolean,
+    readonly: Boolean,
     col: Number,
     colSm: Number,
     colMd: Number,
@@ -77,34 +98,55 @@ export default {
     return {
       id: uuidv4(),
       local_options: [],
+      loading: false,
+      error_field: "",
     };
   },
   computed: {
     error_list() {
+      let err = [];
       if (this.error) {
         if (typeof this.error === "string") {
-          return [this.error];
+          err = [this.error];
         } else {
-          return this.error;
+          err = this.error;
         }
       } else {
-        return [];
+        err = [];
       }
+      err = [...err, this.error_field].filter((item) => {
+        return item;
+      });
+      if (err.length > 0) {
+        return err;
+      }
+      return null;
     },
     selectValue() {
+      let null_value = this.type == "multiple" ? [] : "";
+
       if (!this.modelValue) {
-        return [];
+        return null_value;
       }
-      return this.local_options.filter((item) =>
-        this.modelValue.includes(item.code)
-      );
+
+      if (this.local_options) {
+        return this.local_options.filter((item) => {
+          if (this.type == "multiple") {
+            return this.modelValue.includes(item.code);
+          } else {
+            return this.modelValue == item.code;
+          }
+        });
+      } else {
+        return null_value;
+      }
     },
     langs() {
       return Langs.list();
     },
   },
   methods: {
-    onInput(event) {
+    onInput: function (event) {
       this.$emit("update:modelValue", event.target.value);
     },
     onSelect: function (value) {
@@ -129,11 +171,33 @@ export default {
       }
       this.$emit("update:modelValue", emit);
     },
+    loadOptions: function () {
+      let self = this;
+      this.error_field = "";
+      this.loading = true;
+      Api.get(
+        this.options_url ?? "",
+        this.options_params ?? {},
+        function (resp, data) {
+          self.loading = false;
+          self.error_field = data.error ?? "";
+          if (resp) {
+            self.local_options = data.data.map((item) => {
+              return {
+                label: item[self.options_label] ?? "",
+                code: item[self.options_key] ?? "",
+              };
+            });
+          }
+        }
+      );
+    },
   },
   mounted() {
     if (this.type == "lang") {
-      console.log("ffff");
       this.local_options = Langs.list();
+    } else if (this.type == "select_data") {
+      this.loadOptions();
     } else {
       this.local_options = this.options ?? [];
     }

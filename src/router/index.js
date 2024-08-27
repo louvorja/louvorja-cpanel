@@ -23,6 +23,16 @@ const routes = [
     name: 'Categories',
     component: () => import('../views/Categories.vue'),
   },
+  {
+    path: '/categories_albums',
+    name: 'CategoriesAlbums',
+    component: () => import('../views/CategoriesAlbums.vue'),
+  },
+  {
+    path: '/albums',
+    name: 'Albums',
+    component: () => import('../views/Albums.vue'),
+  },
 ];
 
 

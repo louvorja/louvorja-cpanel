@@ -232,6 +232,7 @@ export default {
     sort_by: String,
     page: Number,
     search: String,
+    filter: Object,
     can_view: {
       type: Boolean,
       default: true,
@@ -326,6 +327,9 @@ export default {
         this.options.limit = this.limit ?? 10;
         this.options.page = this.options.page ?? this.page ?? 1;
         this.options.sort_by = this.options.sort_by ?? this.sort_by ?? null;
+        if (this.filter) {
+          this.options = { ...this.options, ...this.filter };
+        }
 
         const options = Object.fromEntries(
           Object.entries(this.options).filter(([, value]) => value !== null)
@@ -335,7 +339,8 @@ export default {
           this.columns.map((column) => {
             if (column.name) {
               if (column.type == "number") {
-                options[column.name] = "or:" + this.data_search;
+                options[column.name] =
+                  "or:" + (isNaN(this.data_search) ? 0 : +this.data_search);
               } else {
                 options[column.name] = "orlike:*" + this.data_search + "*";
               }
