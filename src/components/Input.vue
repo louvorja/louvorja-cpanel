@@ -18,42 +18,59 @@
     >
       <span class="visually-hidden">Loading...</span>
     </div>
-    <v-select
-      v-if="
-        type == 'select' ||
-        type == 'multiple' ||
-        type == 'select_data' ||
-        type == 'lang'
-      "
-      :multiple="type == 'multiple'"
-      :options="local_options"
+    <div
+      class="input-group"
       :class="{
         'is-invalid': error_list,
       }"
-      :id="id"
-      :modelValue="selectValue"
-      :selectable="
-        (option) =>
-          modelValue && type == 'multiple'
-            ? !modelValue.includes(option.code)
-            : true
-      "
-      :disabled="disabled || readonly || loading"
-      @update:modelValue="onSelect"
-    />
-    <input
-      v-else
-      :type="type ?? 'text'"
-      class="form-control"
-      :class="{
-        'is-invalid': error_list,
-      }"
-      :id="id"
-      :aria-describedby="id + 'Help'"
-      :value="modelValue"
-      :disabled="disabled || readonly || loading"
-      @input="onInput"
-    />
+    >
+      <v-select
+        v-if="
+          type == 'select' ||
+          type == 'multiple' ||
+          type == 'select_data' ||
+          type == 'lang'
+        "
+        :multiple="type == 'multiple'"
+        :options="local_options"
+        class="w-100"
+        :class="{
+          'is-invalid': error_list,
+        }"
+        :id="id"
+        :modelValue="selectValue"
+        :selectable="
+          (option) =>
+            modelValue && type == 'multiple'
+              ? !modelValue.includes(option.code)
+              : true
+        "
+        :disabled="disabled || readonly || loading"
+        @update:modelValue="onSelect"
+      />
+      <input
+        v-else
+        :type="type && type != 'color' ? type : 'text'"
+        class="form-control"
+        :class="{
+          'is-invalid': error_list,
+        }"
+        :id="id"
+        :aria-describedby="id + 'Help'"
+        :value="modelValue"
+        :disabled="disabled || readonly || loading"
+        @input="onInput"
+      />
+      <input
+        v-if="type == 'color'"
+        type="color"
+        class="input-group-text"
+        style="width: 38px; height: 38px; padding: 3px"
+        :value="modelValue"
+        :disabled="disabled || readonly || loading"
+        @input="onInput"
+      />
+    </div>
     <div v-if="help" :id="id + 'Help'" class="form-text">
       {{ help }}
     </div>

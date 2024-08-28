@@ -6,7 +6,8 @@
       :href="'#' + id"
       role="button"
       aria-expanded="false"
-      aria-controls="multiCollapseExample1"
+      :aria-controls="id"
+      @click="toggleCollapse"
     >
       <h6 class="m-0 font-weight-bold text-primary">
         {{ title }}
@@ -29,11 +30,33 @@ export default {
   inheritAttrs: false,
   props: {
     title: String,
+    modelValue: Boolean,
   },
   data() {
     return {
       id: uuidv4(),
+      isCollapsed: true,
     };
+  },
+  methods: {
+    monitorCollapse() {
+      this.$emit("update:modelValue", false);
+      const collapseElement = this.$el.querySelector(".collapse");
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === "class") {
+            const hasShowClass = collapseElement.classList.contains("show");
+            this.$emit("update:modelValue", hasShowClass);
+          }
+        });
+      });
+
+      observer.observe(collapseElement, { attributes: true });
+    },
+  },
+  mounted() {
+    this.monitorCollapse();
   },
 };
 </script>

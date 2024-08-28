@@ -2,11 +2,16 @@
   <title-page :mb="3">Categorias</title-page>
   <div class="card">
     <div class="card-body">
-      <category-table v-model="categories">
-        <collapse title="Álbuns nessa Categoria" v-if="categories.id_category">
+      <category-table v-model="category">
+        <collapse
+          title="Álbuns"
+          v-if="category.id_category"
+          v-model="active_category"
+        >
           <category-album-table
+            v-if="active_category"
             :filter="{
-              id_category: categories.id_category
+              id_category: category.id_category,
             }"
           />
         </collapse>
@@ -31,7 +36,8 @@ export default {
   },
   data() {
     return {
-      categories: {},
+      category: {},
+      active_category: false,
     };
   },
 };

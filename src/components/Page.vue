@@ -22,6 +22,7 @@
     v-model:refresh="refresh"
     :url="url"
     :sort_by="sort_by"
+    :selected="selected"
     :can_view="can_view"
     :can_insert="can_insert"
     :can_update="can_update"
@@ -66,6 +67,7 @@ export default {
     can_insert: Boolean,
     can_update: Boolean,
     can_delete: Boolean,
+    selected: Boolean,
   },
   data() {
     return {

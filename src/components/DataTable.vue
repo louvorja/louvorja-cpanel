@@ -104,8 +104,23 @@
               'text-center': column.type == 'boolean' || column.type == 'flag',
             }"
           >
+            <div
+              v-if="column.type == 'color'"
+              class="d-flex align-items-center flex-row"
+            >
+              <div
+                :style="{
+                  background: row[column.name],
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                }"
+                class="me-1"
+              ></div>
+              <span>{{ row[column.name] ?? "" }}</span>
+            </div>
             <span
-              v-if="column.type == 'boolean'"
+              v-else-if="column.type == 'boolean'"
               :class="row[column.name] ? 'text-success' : 'text-danger'"
             >
               <font-awesome-icon :icon="row[column.name] ? 'check' : 'times'" />
@@ -233,6 +248,7 @@ export default {
     page: Number,
     search: String,
     filter: Object,
+    selected: Boolean,
     can_view: {
       type: Boolean,
       default: true,
@@ -353,6 +369,9 @@ export default {
           self.loading = false;
           self.error = data.error ?? "";
           self.data = data;
+          if (self.data && self.selected) {
+            self.clickButton("edit", self.data.data[0]);
+          }
         });
       }
     },

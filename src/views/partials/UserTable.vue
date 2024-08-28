@@ -5,6 +5,7 @@
     url="admin/users"
     id_field="id"
     :filter="filter"
+    :selected="selected"
     :can_view="can_view"
     :can_insert="can_insert"
     :can_update="can_update"
@@ -125,7 +126,7 @@ import Page from "@/components/Page.vue";
 
 export default {
   name: "UserTable",
-  props: { filter: Object },
+  props: { filter: Object, selected: Boolean },
   components: {
     Page,
   },
