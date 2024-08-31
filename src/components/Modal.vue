@@ -6,7 +6,9 @@
     :aria-labelledby="id + 'Label'"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg">
+    <div
+      class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+    >
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" :id="id + 'Label'">{{ title }}</h5>

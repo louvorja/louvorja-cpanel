@@ -19,13 +19,24 @@
       <span class="visually-hidden">Loading...</span>
     </div>
     <div
-      class="input-group"
+      class="input-group flex-nowrap"
       :class="{
         'is-invalid': error_list,
       }"
     >
+      <library-input
+        v-if="type == 'library'"
+        :id="id"
+        :class="{
+          'is-invalid': error_list,
+        }"
+        :category="category"
+        :value="modelValue"
+        :disabled="disabled || readonly || loading"
+        @input="onFile"
+      />
       <v-select
-        v-if="
+        v-else-if="
           type == 'select' ||
           type == 'multiple' ||
           type == 'select_data' ||
@@ -66,7 +77,7 @@
         type="color"
         class="input-group-text"
         style="width: 38px; height: 38px; padding: 3px"
-        :value="modelValue"
+        :value="modelValue ?? '#000000'"
         :disabled="disabled || readonly || loading"
         @input="onInput"
       />
@@ -86,10 +97,15 @@
 const Api = require("@/services/Api");
 const Langs = require("@/helpers/Langs");
 
+import LibraryInput from "@/components/partials/LibraryInput.vue";
+
 import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "InputComponent",
+  components: {
+    LibraryInput,
+  },
   inheritAttrs: false,
   props: {
     modelValue: [String, Array, Number],
@@ -104,6 +120,7 @@ export default {
     options_params: Object,
     disabled: Boolean,
     readonly: Boolean,
+    category: String,
     col: Number,
     colSm: Number,
     colMd: Number,
@@ -187,6 +204,10 @@ export default {
         }
       }
       this.$emit("update:modelValue", emit);
+    },
+    onFile: function (value) {
+      console.log("FILE");
+      this.$emit("update:modelValue", value);
     },
     loadOptions: function () {
       let self = this;

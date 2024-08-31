@@ -27,6 +27,8 @@
           col: [12, 12, 12, 5, 5, 5],
         },
         {
+          type: 'library',
+          category: 'image_album',
           name: 'id_file_image',
           label: 'Arquivo',
           col: [12, 6],
