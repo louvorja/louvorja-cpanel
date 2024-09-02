@@ -72,16 +72,8 @@
       remove: { label: 'Remover Imagem', color: 'danger' },
     }"
     @button="button_library"
+    @scroll="scroll"
   >
-    <div
-      v-if="loading"
-      class="d-flex align-items-center justify-content-center"
-    >
-      <div class="spinner-border text-secondary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-
     <alert danger v-if="error">{{ error }}</alert>
 
     <div
@@ -147,6 +139,18 @@
         </a>
       </div>
     </div>
+
+    <div
+      v-if="loading"
+      class="d-flex align-items-center justify-content-center"
+    >
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-if="next_page" class="p-4 w-100 text-center">
+      <button class="btn btn-primary" @click="load()">Carregar mais</button>
+    </div>
   </modal>
 
   <button
@@ -195,8 +199,14 @@ export default {
       error_item: "",
       loading: false,
       loading_item: false,
+      limit: 50,
+      page: null,
+      pages: null,
+      next_page: 1,
       data: [],
       item: {},
+      data_scroll: {},
+      scroll_load: 50,
     };
   },
   watch: {
@@ -206,7 +216,6 @@ export default {
         this.error = "";
         this.item = {};
       } else {
-        console.log("WATCH", value);
         this.load_item();
       }
     },
@@ -225,24 +234,40 @@ export default {
         this.remove();
       }
     },
+    scroll(value) {
+      this.data_scroll = value;
+      if (!this.loading && value.bottom <= this.scroll_load) {
+        this.load();
+      }
+    },
     remove() {
       this.file = {};
       this.$emit("input", null);
       this.show_library = false;
     },
     load() {
-      if (this.data.length <= 0) {
+      if (this.next_page && this.show_library) {
         let self = this;
         this.error = "";
         this.loading = true;
         Api.get(
           "admin/files",
-          { type: this.category, limit: -1 },
+          {
+            type: this.category,
+            limit: this.limit,
+            page: this.next_page,
+            sort_by: "id_file.desc",
+          },
           function (resp, data) {
             self.loading = false;
             self.error = data.error ?? "";
             if (resp) {
-              self.data = data.data ?? [];
+              self.page = data.current_page;
+              self.pages = data.last_page;
+              self.next_page = data.next_page_url
+                ? data.current_page + 1
+                : null;
+              self.data.push(...(data.data ?? []));
             }
           }
         );

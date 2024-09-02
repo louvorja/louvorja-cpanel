@@ -46,7 +46,7 @@
               category: 'music',
               name: 'library_music',
               label: 'library: music',
-              col: [12, 6, 4, 4, 4, 3],
+              col: [12, 12, 8, 8, 8, 9],
             },
             {
               type: 'lang',

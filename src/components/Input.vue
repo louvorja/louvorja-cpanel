@@ -206,7 +206,6 @@ export default {
       this.$emit("update:modelValue", emit);
     },
     onFile: function (value) {
-      console.log("FILE");
       this.$emit("update:modelValue", value);
     },
     loadOptions: function () {

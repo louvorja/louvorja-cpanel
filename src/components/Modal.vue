@@ -19,7 +19,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" ref="modalBody">
           <slot />
         </div>
         <div class="modal-footer">
@@ -92,6 +92,30 @@ export default {
     clickButton(button) {
       this.$emit("button", button);
     },
+    onResize() {
+      let self = this;
+      setTimeout(function () {
+        self.onScroll();
+      }, 100);
+    },
+    onScroll(event) {
+      const scrollTop = event
+        ? event.target.scrollTop
+        : this.$refs.modalBody.scrollTop;
+      const scrollHeight = event
+        ? event.target.scrollHeight
+        : this.$refs.modalBody.scrollHeight;
+      const clientHeight = event
+        ? event.target.clientHeight
+        : this.$refs.modalBody.clientHeight;
+      const scrollBottom = scrollHeight - (scrollTop + clientHeight);
+
+      this.$emit("scroll", {
+        top: scrollTop,
+        bottom: scrollBottom,
+        height: scrollHeight,
+      });
+    },
   },
   mounted() {
     this.modalElement = document.getElementById(this.id);
@@ -102,6 +126,13 @@ export default {
     if (this.show) {
       this.openModal();
     }
+    this.$refs.modalBody.addEventListener("scroll", this.onScroll);
+
+    this.resizeObserver = new ResizeObserver(this.onResize);
+    this.resizeObserver.observe(this.$refs.modalBody);
+
+    this.onScroll();
+    this.onResize();
   },
   beforeUnmount() {
     if (this.modalElement) {
@@ -113,6 +144,11 @@ export default {
       } catch (error) {
         console.error("Failed to remove event listener:", error);
       }
+    }
+    this.$refs.modalBody.removeEventListener("scroll", this.onScroll);
+    this.$refs.modalBody.removeEventListener("scroll", this.onScroll);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
     }
   },
 };
