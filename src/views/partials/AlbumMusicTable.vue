@@ -2,8 +2,8 @@
   <page
     v-if="loaded"
     v-model="data"
-    url="admin/categories_albums"
-    id_field="id_category_album"
+    url="admin/albums_musics"
+    id_field="id_album_music"
     :filter="filter"
     :selected="selected"
     :can_view="can_view"
@@ -14,20 +14,10 @@
       [
         {
           type: 'number',
-          name: 'id_category_album',
+          name: 'id_album_music',
           label: 'ID',
           disabled: true,
           col: [12, 2, 2, 2, 2, 2],
-        },
-        {
-          type: 'select_data',
-          name: 'id_category',
-          label: 'Categoria',
-          options_url: 'admin/categories',
-          options_label: 'name',
-          options_key: 'id_category',
-          options_params: { sort_by: 'name' },
-          col: [12, 10, 10, 5, 5, 5],
         },
         {
           type: 'select_data',
@@ -37,30 +27,38 @@
           options_label: 'name',
           options_key: 'id_album',
           options_params: { sort_by: 'name' },
+          col: [12, 10, 10, 5, 5, 5],
+        },
+        {
+          type: 'select_data',
+          name: 'id_music',
+          label: 'Música',
+          options_url: 'admin/musics',
+          options_label: 'name',
+          options_key: 'id_music',
+          options_params: { sort_by: 'name' },
           col: [12, 12, 12, 5, 5, 5],
         },
-        { name: 'name', label: 'Título', col: [12, 12, 12, 5] },
         {
-          name: 'order',
+          name: 'track',
           type: 'number',
-          label: 'Ordem',
-          col: [12, 4, 4, 2],
+          label: 'Faixa',
+          col: [12, 4, 4, 4],
         },
         {
           type: 'lang',
           name: 'id_language',
           label: 'Idioma',
-          col: [12, 8, 8, 5],
+          col: [12, 8, 8, 8],
         },
       ],
     ]"
-    sort_by="category_name"
+    sort_by="album_name"
     :grid_columns="[
-      { name: 'id_category_album', label: 'ID', type: 'number' },
-      { name: 'category_name', label: 'Categoria' },
+      { name: 'id_album_music', label: 'ID', type: 'number' },
       { name: 'album_name', label: 'Álbum' },
-      { name: 'name', label: 'Título' },
-      { name: 'order', label: 'Ordem', type: 'number' },
+      { name: 'music_name', label: 'Música' },
+      { name: 'track', label: 'Faixa', type: 'number' },
       { name: 'id_language', label: 'Idioma', type: 'flag' },
     ]"
   >
@@ -74,7 +72,7 @@ import { mapGetters } from "vuex";
 import Page from "@/components/Page.vue";
 
 export default {
-  name: "CategoryAlbumTable",
+  name: "AlbumMusicTable",
   props: { filter: Object, selected: Boolean },
   components: {
     Page,
@@ -88,25 +86,25 @@ export default {
   computed: {
     can_view() {
       return (
-        (this.user.permissions ?? []).includes("categories_albums") ||
+        (this.user.permissions ?? []).includes("albums_musics") ||
         this.user.is_admin
       );
     },
     can_insert() {
       return (
-        (this.user.permissions ?? []).includes("categories_albums.insert") ||
+        (this.user.permissions ?? []).includes("albums_musics.insert") ||
         this.user.is_admin
       );
     },
     can_update() {
       return (
-        (this.user.permissions ?? []).includes("categories_albums.update") ||
+        (this.user.permissions ?? []).includes("albums_musics.update") ||
         this.user.is_admin
       );
     },
     can_delete() {
       return (
-        (this.user.permissions ?? []).includes("categories_albums.delete") ||
+        (this.user.permissions ?? []).includes("albums_musics.delete") ||
         this.user.is_admin
       );
     },

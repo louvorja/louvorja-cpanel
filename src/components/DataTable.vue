@@ -116,7 +116,7 @@
                   borderRadius: '50%',
                 }"
                 class="me-1"
-              ></div>
+              />
               <span>{{ row[column.name] ?? "" }}</span>
             </div>
             <span
@@ -129,6 +129,22 @@
               v-else-if="column.type == 'flag'"
               :iso="row[column.name] == 'pt' ? 'br' : row[column.name]"
             />
+            <div
+              v-else-if="column.type == 'music'"
+              class="d-flex align-items-center flex-row"
+            >
+              <span class="text-primary">
+                <font-awesome-icon icon="music" />
+              </span>
+              <a
+                class="ms-1 small text-muted"
+                v-if="row[column.name]"
+                :href="row[column.name]"
+                target="_blank"
+              >
+                {{ getFilePath(row[column.name] ?? "") }}
+              </a>
+            </div>
             <span v-else>
               {{ row[column.name] ?? "" }}
             </span>
@@ -373,6 +389,16 @@ export default {
             self.clickButton("edit", self.data.data[0]);
           }
         });
+      }
+    },
+    getFilePath(url) {
+      const parts = url.split("/");
+      if (parts.length >= 2) {
+        return `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
+      } else if (parts.length >= 1) {
+        return `${parts[parts.length - 1]}`;
+      } else {
+        return url;
       }
     },
   },

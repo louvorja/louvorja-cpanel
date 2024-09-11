@@ -4,7 +4,12 @@
     <div class="card-body">
       <category-album-table v-model="category_album">
         <collapse
-          :title="'Categoria | ' + category_album.category.name"
+          :title="
+            'Categoria | ' +
+            (category_album && category_album.category
+              ? category_album.category.name
+              : '')
+          "
           v-if="category_album.id_category_album"
           v-model="active_category"
         >
@@ -17,7 +22,12 @@
           />
         </collapse>
         <collapse
-          :title="'Album | ' + category_album.album.name"
+          :title="
+            'Album | ' +
+            (category_album && category_album.album
+              ? category_album.album.name
+              : '')
+          "
           v-if="category_album.id_category_album"
           v-model="active_album"
         >

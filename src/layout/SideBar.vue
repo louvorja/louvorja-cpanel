@@ -135,9 +135,27 @@
       </router-link>
     </item-menu>
 
-    <item-menu label="Músicas" icon="music">
-      <router-link class="collapse-item" to="/">Músicas</router-link>
-      <router-link class="collapse-item" to="/users">Letras</router-link>
+    <item-menu
+      v-if="
+        this.user.is_admin ||
+        (this.user.permissions ?? []).includes('musics') ||
+        (this.user.permissions ?? []).includes('lyrics')
+      "
+      :active="['/musics', '/lyrics'].includes(route)"
+      label="Músicas"
+      icon="music"
+    >
+      <router-link
+        v-if="
+          this.user.is_admin || (this.user.permissions ?? []).includes('musics')
+        "
+        :class="{ active: route == '/musics' }"
+        to="/musics"
+        class="collapse-item"
+      >
+        Músicas
+      </router-link>
+      <router-link class="collapse-item" to="/lyrics">Letras</router-link>
     </item-menu>
 
     <item-menu label="Utilitários" icon="wrench">

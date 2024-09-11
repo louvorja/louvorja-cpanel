@@ -16,6 +16,18 @@
             }"
           />
         </collapse>
+        <collapse
+          title="Músicas"
+          v-if="album.id_album"
+          v-model="active_album"
+        >
+          <album-music-table
+            v-if="active_album"
+            :filter="{
+              id_album: album.id_album,
+            }"
+          />
+        </collapse>
       </album-table>
     </div>
   </div>
@@ -26,6 +38,7 @@ import TitlePage from "@/components/Title.vue";
 import Collapse from "@/components/Collapse.vue";
 import AlbumTable from "@/views/partials/AlbumTable.vue";
 import CategoryAlbumTable from "@/views/partials/CategoryAlbumTable.vue";
+import AlbumMusicTable from "@/views/partials/AlbumMusicTable.vue";
 
 export default {
   name: "AlbumsPage",
@@ -34,6 +47,7 @@ export default {
     Collapse,
     AlbumTable,
     CategoryAlbumTable,
+    AlbumMusicTable,
   },
   data() {
     return {

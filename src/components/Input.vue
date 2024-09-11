@@ -214,7 +214,7 @@ export default {
       this.loading = true;
       Api.get(
         this.options_url ?? "",
-        this.options_params ?? {},
+        Object.assign(this.options_params ?? {}, { limit: -1 }),
         function (resp, data) {
           self.loading = false;
           self.error_field = data.error ?? "";

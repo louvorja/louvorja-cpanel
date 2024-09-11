@@ -30,7 +30,7 @@
           type: 'library',
           category: 'image_album',
           name: 'id_file_image',
-          label: 'Arquivo',
+          label: 'Imagem de Capa',
           col: [12, 6],
         },
         {
@@ -59,7 +59,7 @@ import { mapGetters } from "vuex";
 import Page from "@/components/Page.vue";
 
 export default {
-  name: "CategoryTable",
+  name: "AlbumTable",
   props: { filter: Object, selected: Boolean },
   components: {
     Page,

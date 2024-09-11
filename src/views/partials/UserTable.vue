@@ -93,8 +93,37 @@
               code: 'albums.update',
             },
             {
+              label: 'albums_musics | Músicas dos Álbuns',
+              code: 'albums_musics',
+            },
+            {
+              label: 'albums_musics.insert | Músicas dos Álbuns - Cadastro',
+              code: 'albums_musics.insert',
+            },
+            {
+              label: 'albums_musics.update | Músicas dos Álbuns - Alteração',
+              code: 'albums_musics.update',
+            },
+            {
+              label: 'albums_musics.delete | Músicas dos Álbuns - Exclusão',
+              code: 'albums_musics.delete',
+            },
+            {
               label: 'albums.delete | Álbuns - Exclusão',
               code: 'albums.delete',
+            },
+            { label: 'musics | Músicas', code: 'musics' },
+            {
+              label: 'musics.insert | Músicas - Cadastro',
+              code: 'musics.insert',
+            },
+            {
+              label: 'musics.update | Músicas - Alteração',
+              code: 'musics.update',
+            },
+            {
+              label: 'musics.delete | Músicas - Exclusão',
+              code: 'musics.delete',
             },
           ],
           col: [12],
