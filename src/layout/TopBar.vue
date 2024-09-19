@@ -4,7 +4,7 @@
   >
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ms-auto">
-      <!-- Nav Item - Alerts -->
+      <!--
       <li class="nav-item dropdown no-arrow mx-1">
         <a
           class="nav-link dropdown-toggle"
@@ -16,10 +16,8 @@
           aria-expanded="false"
         >
           <font-awesome-icon icon="bell" />
-          <!-- Counter - Alerts -->
           <span class="badge bg-danger badge-counter">3+</span>
         </a>
-        <!-- Dropdown - Alerts -->
         <div
           class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
           aria-labelledby="alerts"
@@ -67,7 +65,6 @@
         </div>
       </li>
 
-      <!-- Nav Item - Messages -->
       <li class="nav-item dropdown no-arrow mx-1">
         <a
           class="nav-link dropdown-toggle"
@@ -79,10 +76,8 @@
           aria-expanded="false"
         >
           <font-awesome-icon icon="envelope" />
-          <!-- Counter - Messages -->
           <span class="badge bg-danger badge-counter">7</span>
         </a>
-        <!-- Dropdown - Messages -->
         <div
           class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
           aria-labelledby="messages"
@@ -141,10 +136,10 @@
           >
         </div>
       </li>
+      -->
 
       <div class="topbar-divider d-none d-sm-block"></div>
 
-      <!-- Nav Item - User Information -->
       <li class="nav-item dropdown no-arrow">
         <a
           class="nav-link dropdown-toggle"

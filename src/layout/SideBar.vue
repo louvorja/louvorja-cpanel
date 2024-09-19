@@ -167,11 +167,12 @@
       </router-link>
     </item-menu>
 
+<!--
     <item-menu label="Utilitários" icon="wrench">
       <a class="collapse-item" href="utilities-color.html">Idiomas</a>
       <a class="collapse-item" href="utilities-border.html">Arquivos</a>
     </item-menu>
-
+-->
     <!-- Divider -->
     <hr class="sidebar-divider" />
   </ul>
