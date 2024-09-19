@@ -155,7 +155,16 @@
       >
         Músicas
       </router-link>
-      <router-link class="collapse-item" to="/lyrics">Letras</router-link>
+      <router-link
+        v-if="
+          this.user.is_admin || (this.user.permissions ?? []).includes('lyrics')
+        "
+        :class="{ active: route == '/lyrics' }"
+        to="/lyrics"
+        class="collapse-item"
+      >
+        Letras
+      </router-link>
     </item-menu>
 
     <item-menu label="Utilitários" icon="wrench">

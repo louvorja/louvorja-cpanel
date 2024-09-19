@@ -59,6 +59,37 @@
         :disabled="disabled || readonly || loading"
         @update:modelValue="onSelect"
       />
+      <textarea
+        v-else-if="type == 'textarea'"
+        class="form-control"
+        :class="{
+          'is-invalid': error_list,
+        }"
+        :id="id"
+        :aria-describedby="id + 'Help'"
+        :value="modelValue"
+        :disabled="disabled || readonly || loading"
+        ref="textarea"
+        @input="onInput"
+      />
+      <div v-else-if="type == 'boolean'" class="form-check form-switch">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          :class="{
+            'is-invalid': error_list,
+          }"
+          :id="id"
+          :aria-describedby="id + 'Help'"
+          :checked="modelValue"
+          :disabled="disabled || readonly || loading"
+          @change="onCheck"
+        />
+        <label class="form-check-label" :for="id">
+          <span v-if="modelValue">Sim</span>
+          <span v-else>Não</span>
+        </label>
+      </div>
       <input
         v-else
         :type="type && type != 'color' ? type : 'text'"
@@ -70,6 +101,7 @@
         :aria-describedby="id + 'Help'"
         :value="modelValue"
         :disabled="disabled || readonly || loading"
+        :step="type == 'number' || type == 'time' ? 1 : 0"
         @input="onInput"
       />
       <input
@@ -108,7 +140,7 @@ export default {
   },
   inheritAttrs: false,
   props: {
-    modelValue: [String, Array, Number],
+    modelValue: [String, Array, Number, Boolean],
     label: String,
     type: String,
     help: String,
@@ -135,6 +167,11 @@ export default {
       loading: false,
       error_field: "",
     };
+  },
+  watch: {
+    modelValue() {
+      this.adjustHeight();
+    },
   },
   computed: {
     error_list() {
@@ -182,6 +219,10 @@ export default {
   methods: {
     onInput: function (event) {
       this.$emit("update:modelValue", event.target.value);
+      this.adjustHeight();
+    },
+    onCheck: function (event) {
+      this.$emit("update:modelValue", event.target.checked);
     },
     onSelect: function (value) {
       let emit;
@@ -208,6 +249,13 @@ export default {
     onFile: function (value) {
       this.$emit("update:modelValue", value);
     },
+    adjustHeight() {
+      if (this.type == "textarea") {
+        let textarea = this.$refs.textarea;
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight + 2}px`;
+      }
+    },
     loadOptions: function () {
       let self = this;
       this.error_field = "";
@@ -221,7 +269,10 @@ export default {
           if (resp) {
             self.local_options = data.data.map((item) => {
               return {
-                label: item[self.options_label] ?? "",
+                label:
+                  (item[self.options_key] ?? "") +
+                  " - " +
+                  (item[self.options_label] ?? ""),
                 code: item[self.options_key] ?? "",
               };
             });

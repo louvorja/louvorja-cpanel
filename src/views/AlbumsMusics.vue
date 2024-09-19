@@ -5,8 +5,10 @@
       <album-music-table v-model="album_music">
         <collapse
           :title="
-            'Album | ' +
-            (album_music && album_music.album ? album_music.album.name : '')
+            'Album' +
+            (album_music && album_music.album
+              ? ' | ' + album_music.album.name
+              : '')
           "
           v-if="album_music.id_album_music"
           v-model="active_album"
@@ -21,8 +23,10 @@
         </collapse>
         <collapse
           :title="
-            'Música | ' +
-            (album_music && album_music.music ? album_music.music.name : '')
+            'Música' +
+            (album_music && album_music.music
+              ? ' | ' + album_music.music.name
+              : '')
           "
           v-if="album_music.id_album_music"
           v-model="active_music"

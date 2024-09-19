@@ -125,6 +125,19 @@
               label: 'musics.delete | Músicas - Exclusão',
               code: 'musics.delete',
             },
+            { label: 'lyrics | Letras', code: 'lyrics' },
+            {
+              label: 'lyrics.insert | Letras - Cadastro',
+              code: 'lyrics.insert',
+            },
+            {
+              label: 'lyrics.update | Letras - Alteração',
+              code: 'lyrics.update',
+            },
+            {
+              label: 'lyrics.delete | Letras - Exclusão',
+              code: 'lyrics.delete',
+            },
           ],
           col: [12],
         },

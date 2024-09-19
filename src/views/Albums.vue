@@ -16,15 +16,12 @@
             }"
           />
         </collapse>
-        <collapse
-          title="Músicas"
-          v-if="album.id_album"
-          v-model="active_album"
-        >
+        <collapse title="Músicas" v-if="album.id_album" v-model="active_album">
           <album-music-table
             v-if="active_album"
             :filter="{
               id_album: album.id_album,
+              sort_by: 'track',
             }"
           />
         </collapse>

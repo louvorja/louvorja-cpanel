@@ -43,6 +43,11 @@ const routes = [
     name: 'Musics',
     component: () => import('../views/Musics.vue'),
   },
+  {
+    path: '/lyrics',
+    name: 'Lyrics',
+    component: () => import('../views/Lyrics.vue'),
+  },
 
   {
     path: '/components',
