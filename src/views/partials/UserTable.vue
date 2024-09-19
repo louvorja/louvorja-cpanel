@@ -93,6 +93,10 @@
               code: 'albums.update',
             },
             {
+              label: 'albums.delete | Álbuns - Exclusão',
+              code: 'albums.delete',
+            },
+            {
               label: 'albums_musics | Músicas dos Álbuns',
               code: 'albums_musics',
             },
@@ -107,10 +111,6 @@
             {
               label: 'albums_musics.delete | Músicas dos Álbuns - Exclusão',
               code: 'albums_musics.delete',
-            },
-            {
-              label: 'albums.delete | Álbuns - Exclusão',
-              code: 'albums.delete',
             },
             { label: 'musics | Músicas', code: 'musics' },
             {
