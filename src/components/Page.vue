@@ -39,7 +39,7 @@
 </template>
 
 <script>
-const Api = require("@/services/Api");
+import Api from "@/services/Api";
 
 import { mapMutations } from "vuex";
 import Swal from "sweetalert2";

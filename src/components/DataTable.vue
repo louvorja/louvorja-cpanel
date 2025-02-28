@@ -245,7 +245,7 @@
 </template>
 
 <script>
-const Api = require("@/services/Api");
+import Api from "@/services/Api";
 
 import Alert from "@/components/Alert.vue";
 

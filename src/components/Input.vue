@@ -35,7 +35,7 @@
         :disabled="disabled || readonly || loading"
         @input="onFile"
       />
-      <v-select
+      <vue-select
         v-else-if="
           type == 'select' ||
           type == 'multiple' ||
@@ -126,8 +126,8 @@
 </template>
 
 <script>
-const Api = require("@/services/Api");
-const Langs = require("@/helpers/Langs");
+import Api from "@/services/Api";
+import Langs from "@/helpers/Langs";
 
 import LibraryInput from "@/components/partials/LibraryInput.vue";
 

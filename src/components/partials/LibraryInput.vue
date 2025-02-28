@@ -173,7 +173,7 @@
 </template>
 
 <script>
-const Api = require("@/services/Api");
+import Api from "@/services/Api";
 
 import Modal from "@/components/Modal.vue";
 import Alert from "@/components/Alert.vue";

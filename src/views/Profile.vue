@@ -68,7 +68,7 @@
 </template>
 
 <script>
-const Auth = require("@/controllers/Auth");
+import Auth from "@/controllers/Auth";
 
 import { mapGetters } from "vuex";
 
