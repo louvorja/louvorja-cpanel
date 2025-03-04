@@ -2,7 +2,7 @@ name: deploy
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -29,7 +29,7 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
-          VITE_BASE_URL: /louvorja-cpanel/
+          VITE_BASE_URL: /adm/
       - name: deploy to dist
         run: |
           cd dist
